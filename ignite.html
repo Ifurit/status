@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ignite | S.T.A.T.U.T.E.S.</title>
     <style>
-        :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
+        :root { --accent: #7a0000; --patreon: #f96854; --bg: #050505; --text: #c0c0c0; }
         body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", sans-serif; margin: 0; line-height: 1.6; }
         nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; background: #050505; }
         nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--accent); }
         .lang-switcher { margin-top: 10px; }
         .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
-        .lang-btn.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 5px var(--accent); }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); }
         .container { max-width: 600px; margin: 50px auto; padding: 0 25px; }
         h2 { text-align: center; color: #fff; letter-spacing: 3px; margin-bottom: 40px; }
         .tier { background: #111; padding: 25px; border: 1px solid #222; margin-bottom: 20px; border-left: 4px solid var(--accent); }
         .tier h3 { color: var(--accent); margin: 0 0 10px 0; font-size: 1.2rem; }
         .tier p { margin: 0; font-size: 0.9rem; color: #888; }
-        .btn-kofi { display: block; background: var(--accent); color: #fff; text-align: center; padding: 20px; text-decoration: none; font-weight: bold; margin-top: 40px; letter-spacing: 2px; }
+        
+        .btn-group { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+        .btn-pay { display: block; text-align: center; padding: 18px; text-decoration: none; font-weight: bold; letter-spacing: 2px; transition: 0.3s; }
+        .btn-kofi { background: var(--accent); color: #fff; }
+        .btn-patreon { background: #fff; color: #000; border: 1px solid #fff; }
+        .btn-patreon:hover { background: var(--patreon); color: #fff; border-color: var(--patreon); }
+        
+        .alt-notice { text-align: center; margin-top: 20px; font-size: 0.85rem; color: #666; }
         .form-notice { margin-top: 40px; padding: 20px; border: 1px dashed #444; text-align: center; background: rgba(255,255,255,0.02); }
-        .form-notice p { font-size: 0.9rem; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -37,6 +43,7 @@
 
     <div class="container">
         <h2 data-t="h_title">Manifest Your Will</h2>
+        
         <div class="tier">
             <h3 data-t="t1_h">【 Monument of Will 】</h3>
             <p data-t="t1_p">Your name eternally carved into the monuments of this world.</p>
@@ -45,19 +52,46 @@
             <h3 data-t="t2_h">【 Soul Projection 】</h3>
             <p data-t="t2_p">Align an NPC with your essence—name, visual, law, and motifs.</p>
         </div>
-        <a href="https://ko-fi.com/status_dev" target="_blank" class="btn-kofi" data-t="btn_kofi">IGNITE VIA KO-FI</a>
+
+        <div class="btn-group">
+            <a href="https://ko-fi.com/status_dev" target="_blank" class="btn-pay btn-kofi" data-t="btn_kofi">IGNITE VIA KO-FI</a>
+            <p class="alt-notice" data-t="alt_msg">Unwilling to use Ko-fi? Support via Patreon instead.</p>
+            <a href="https://www.patreon.com/c/Fatumproject" target="_blank" class="btn-pay btn-patreon">SUPPORT VIA PATREON</a>
+        </div>
+
         <div class="form-notice">
             <p data-t="notice_1">Already supported the project?</p>
-            <p data-t="notice_2" style="color: #fff; font-weight: bold;">The feedback form link is in your donation receipt.</p>
+            <p data-t="notice_2" style="color: #fff; font-weight: bold;">The feedback form link is in your donation receipt / Patreon welcome message.</p>
             <p data-t="notice_3" style="font-size: 0.8rem; color: #666;">If you missed it, please contact the developer.</p>
         </div>
     </div>
 
     <script>
         const translations = {
-            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_title: "Manifest Your Will", btn_kofi: "IGNITE VIA KO-FI", t1_h: "【 Monument of Will 】", t1_p: "Your name eternally carved into the monuments of this world.", t2_h: "【 Soul Projection 】", t2_p: "Align an NPC with your essence—name, visual, law, and motifs.", notice_1: "Already supported the project?", notice_2: "The feedback form link is in your donation receipt.", notice_3: "If you missed it, please contact the developer." },
-            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_title: "注入你的意志", btn_kofi: "透過 KO-FI 注入意志", t1_h: "【 意志之碑 】", t1_p: "您的名字將被永久刻錄於遊戲世界的紀念碑中。", t2_h: "【 靈魂投影 】", t2_p: "將 NPC 與您的本質對齊——包含姓名、外觀、法則與專屬音律。", notice_1: "已經完成支持？", notice_2: "回饋調查表單連結包含在您的贊助收據訊息中。", notice_3: "若您遺漏了連結，請聯繫開發者。" },
-            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_title: "意志を具現化する", btn_kofi: "KO-FI で意志を注入する", t1_h: "【 意志の碑 】", t1_p: "ゲーム内の碑石に君の名を刻む。", t2_h: "【 魂の投影 】", t2_p: "名前、外見、法則、音律など、君の本質を NPC に同期させる。", notice_1: "既に支援されましたか？", notice_2: "フィードバックフォームのリンクは支援完了メッセージに記載されています。", notice_3: "リンクが見当たらない場合は開発者にご連絡ください。" }
+            en: { 
+                nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE",
+                h_title: "Manifest Your Will", btn_kofi: "IGNITE VIA KO-FI",
+                t1_h: "【 Monument of Will 】", t1_p: "Your name eternally carved into the monuments of this world.",
+                t2_h: "【 Soul Projection 】", t2_p: "Align an NPC with your essence—name, visual, law, and motifs.",
+                alt_msg: "Unwilling to use Ko-fi? Support via Patreon instead.",
+                notice_1: "Already supported the project?", notice_2: "The feedback form link is in your donation receipt / Patreon welcome message.", notice_3: "If you missed it, please contact the developer."
+            },
+            zh: { 
+                nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志",
+                h_title: "注入你的意志", btn_kofi: "透過 KO-FI 注入意志",
+                t1_h: "【 意志之碑 】", t1_p: "您的名字將被永久刻錄於遊戲世界的紀念碑中。",
+                t2_h: "【 靈魂投影 】", t2_p: "將 NPC 與您的本質對齊——包含姓名、外觀、法則與專屬音律。",
+                alt_msg: "若不願意使用 Ko-fi，請連結到 Patreon 做贊助。",
+                notice_1: "已經完成支持？", notice_2: "回饋表單連結包含在您的贊助收據或 Patreon 歡迎訊息中。", notice_3: "若您遺漏了連結，請聯繫開發者。"
+            },
+            ja: { 
+                nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入",
+                h_title: "意志を具現化する", btn_kofi: "KO-FI で意志を注入する",
+                t1_h: "【 意志の碑 】", t1_p: "ゲーム内の碑石に君の名を刻む。",
+                t2_h: "【 魂の投影 】", t2_p: "名前、外見、法則、音律など、君の本質を NPC に同期させる。",
+                alt_msg: "Ko-fi を使用したくない場合は、Patreon で支援してください。",
+                notice_1: "既に支援されましたか？", notice_2: "フォームのリンクは、支援完了メッセージまたは Patreon 歓迎メッセージに記載されています。", notice_3: "リンクが見当たらない場合は開発者にご連絡ください。"
+            }
         };
 
         function setLang(lang) {
