@@ -2,37 +2,43 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monument | S.T.A.T.U.T.E.S.</title>
     <style>
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; text-align: center; }
-        nav { padding: 20px; border-bottom: 1px solid #1a1a1a; background: #050505; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
+        body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", sans-serif; margin: 0; text-align: center; }
+        nav { padding: 20px; border-bottom: 1px solid #1a1a1a; }
+        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        .lang-switcher { margin-top: 10px; }
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 5px var(--accent); }
         .container { max-width: 800px; margin: 50px auto; padding: 0 20px; }
-        .progress-box { background: #111; padding: 30px; border: 1px solid var(--accent); }
-        .bar-bg { background: #222; height: 30px; position: relative; overflow: hidden; margin-top: 15px; }
-        .bar-fill { background: linear-gradient(90deg, #400, var(--accent)); height: 100%; width: 0%; transition: width 2s; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 40px; }
-        .tag { background: #0a0a0a; padding: 15px; border: 1px solid #1a1a1a; color: #666; font-size: 0.8rem; }
+        .progress-container { background: #111; height: 30px; border: 1px solid #333; margin: 30px 0; position: relative; }
+        #progress-bar { background: var(--accent); height: 100%; width: 0%; transition: width 2s ease-out; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 40px; }
+        .tag { border: 1px solid #222; padding: 10px; font-size: 0.8rem; color: #666; transition: 0.3s; }
+        .tag:hover { border-color: var(--accent); color: #fff; }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html">WORLD</a> <a href="monument.html" style="color:var(--accent)">MONUMENT</a> <a href="ignite.html">IGNITE</a>
-        <div style="margin-top:10px">
-            <button class="lang-btn" onclick="setLang('en')">EN</button>
-            <button class="lang-btn" onclick="setLang('zh')">繁中</button>
-            <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+        <a href="index.html" data-t="nav_world">WORLD</a>
+        <a href="monument.html" class="active" data-t="nav_monument" style="color:var(--accent)">MONUMENT</a>
+        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+        <div class="lang-switcher">
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
+            <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
 
     <div class="container">
         <h2 data-t="h_intensity">Will Intensity</h2>
-        <div class="progress-box">
-            <div class="bar-bg"><div id="bar" class="bar-fill"></div></div>
-            <p id="amount-display" style="font-family: monospace; color: var(--accent); margin-top: 15px;"></p>
+        <div class="progress-container">
+            <div id="progress-bar"></div>
         </div>
+        <p id="progress-text" style="letter-spacing: 2px;">0 / 5000 USD</p>
 
         <h3 data-t="h_witnesses" style="margin-top:60px">Witnesses</h3>
         <div class="grid">
@@ -41,27 +47,31 @@
     </div>
 
     <script>
-        const translations = {
-            en: { h_intensity: "Current Will Intensity", h_witnesses: "The Witnesses", label: "Total Will: " },
-            zh: { h_intensity: "目前世界意志強度", h_witnesses: "已覺醒的見證者", label: "總注入意志：" },
-            ja: { h_intensity: "現在の意志強度", h_witnesses: "目撃者の名簿", label: "累計意志：" }
-        };
-
-        const currentTotal = 0; // 假設美金
+        const currentTotal = 0; 
         const goal = 2000000;
+        const translations = {
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_intensity: "Will Intensity", h_witnesses: "The Witnesses" },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_intensity: "意志強度", h_witnesses: "見證者名單" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_intensity: "意志の強度", h_witnesses: "目撃者の記録" }
+        };
 
         function setLang(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-t]').forEach(el => {
-                el.innerText = translations[lang][el.getAttribute('data-t')];
+                const key = el.getAttribute('data-t');
+                if (translations[lang][key]) el.innerText = translations[lang][key];
             });
-            document.getElementById('amount-display').innerText = `${translations[lang].label} $${currentTotal.toLocaleString()} USD`;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + lang);
+            if (activeBtn) activeBtn.classList.add('active');
         }
 
-        document.getElementById('bar').style.width = (currentTotal / goal * 100) + '%';
-        setLang(localStorage.getItem('preferredLang') || 'en');
+        window.onload = () => {
+            setLang(localStorage.getItem('preferredLang') || 'en');
+            const percent = (currentTotal / goal) * 100;
+            document.getElementById('progress-bar').style.width = percent + '%';
+            document.getElementById('progress-text').innerText = `${currentTotal} / ${goal} USD`;
+        };
     </script>
 </body>
-
 </html>
-
