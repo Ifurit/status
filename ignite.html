@@ -8,105 +8,69 @@
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
         body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", sans-serif; margin: 0; line-height: 1.6; }
         nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; background: #050505; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent); }
         .lang-switcher { margin-top: 10px; }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
-        .lang-btn.active { border-color: var(--accent); color: var(--accent); }
-        
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 5px var(--accent); }
         .container { max-width: 600px; margin: 50px auto; padding: 0 25px; }
         h2 { text-align: center; color: #fff; letter-spacing: 3px; margin-bottom: 40px; }
-        
         .tier { background: #111; padding: 25px; border: 1px solid #222; margin-bottom: 20px; border-left: 4px solid var(--accent); }
         .tier h3 { color: var(--accent); margin: 0 0 10px 0; font-size: 1.2rem; }
         .tier p { margin: 0; font-size: 0.9rem; color: #888; }
-
-        .btn-kofi { display: block; background: var(--accent); color: #fff; text-align: center; padding: 20px; text-decoration: none; font-weight: bold; margin-top: 40px; letter-spacing: 2px; transition: 0.3s; }
-        .btn-kofi:hover { background: #a00; box-shadow: 0 0 20px var(--accent); }
-
-        /* 新增的表單引導區塊 */
-        .form-notice { margin-top: 30px; padding: 20px; border: 1px dashed #444; text-align: center; background: rgba(255,255,255,0.02); }
-        .form-notice p { font-size: 0.85rem; margin-bottom: 15px; }
-        .btn-form { color: var(--accent); text-decoration: underline; font-weight: bold; font-size: 1rem; }
+        .btn-kofi { display: block; background: var(--accent); color: #fff; text-align: center; padding: 20px; text-decoration: none; font-weight: bold; margin-top: 40px; letter-spacing: 2px; }
+        .form-notice { margin-top: 40px; padding: 20px; border: 1px dashed #444; text-align: center; background: rgba(255,255,255,0.02); }
+        .form-notice p { font-size: 0.9rem; margin: 5px 0; }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html">WORLD</a>
-        <a href="monument.html">MONUMENT</a>
-        <a href="ignite.html" style="color:var(--accent)">IGNITE</a>
+        <a href="index.html" data-t="nav_world">WORLD</a>
+        <a href="monument.html" data-t="nav_monument">MONUMENT</a>
+        <a href="ignite.html" class="active" data-t="nav_ignite" style="color:var(--accent)">IGNITE</a>
         <div class="lang-switcher">
-            <button class="lang-btn" onclick="setLang('en')">EN</button>
-            <button class="lang-btn" onclick="setLang('zh')">繁中</button>
-            <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
+            <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
 
     <div class="container">
         <h2 data-t="h_title">Manifest Your Will</h2>
-        
         <div class="tier">
             <h3 data-t="t1_h">【 Monument of Will 】</h3>
             <p data-t="t1_p">Your name eternally carved into the monuments of this world.</p>
         </div>
-        
         <div class="tier">
             <h3 data-t="t2_h">【 Soul Projection 】</h3>
             <p data-t="t2_p">Align an NPC with your essence—name, visual, law, and motifs.</p>
         </div>
-
         <a href="https://ko-fi.com/status_dev" target="_blank" class="btn-kofi" data-t="btn_kofi">IGNITE VIA KO-FI</a>
-
         <div class="form-notice">
-            <p data-t="notice_text">Already ignited your will? Please provide your soul's data here:</p>
-            <a href="https://forms.gle/3xxTmGE3CBJ8oqQ98" target="_blank" class="btn-form" data-t="btn_form">
-                SUBMIT SOUL DATA / 填寫回饋表單
-            </a>
+            <p data-t="notice_1">Already supported the project?</p>
+            <p data-t="notice_2" style="color: #fff; font-weight: bold;">The feedback form link is in your donation receipt.</p>
+            <p data-t="notice_3" style="font-size: 0.8rem; color: #666;">If you missed it, please contact the developer.</p>
         </div>
     </div>
 
     <script>
         const translations = {
-            en: { 
-                h_title: "Manifest Your Will",
-                t1_h: "【 Monument of Will 】", t1_p: "Your name eternally carved into the monuments of this world.",
-                t2_h: "【 Soul Projection 】", t2_p: "Align an NPC with your essence—name, visual, law, and motifs.",
-                btn_kofi: "IGNITE VIA KO-FI",
-                notice_text: "Already ignited your will? Please provide your soul's data here:",
-                btn_form: "SUBMIT SOUL DATA"
-            },
-            zh: { 
-                h_title: "注入你的意志",
-                t1_h: "【 意志之碑 】", t1_p: "您的名字將被永久刻錄於遊戲世界的紀念碑中。",
-                t2_h: "【 靈魂投影 】", t2_p: "將 NPC 與您的本質對齊——包含姓名、外觀、法則與專屬音律。",
-                btn_kofi: "透過 KO-FI 注入意志",
-                notice_text: "已經完成意志注入？請在此提交您的靈魂檔案：",
-                btn_form: "填寫贊助者回饋表單"
-            },
-            ja: { 
-                h_title: "意志を具現化する",
-                t1_h: "【 意志の碑 】", t1_p: "ゲーム内の各層にある碑石に君の名を刻む。",
-                t2_h: "【 魂の投影 】", t2_p: "名前、外見、法則、音律など、君の本質を NPC に同期させる。",
-                btn_kofi: "KO-FI で意志を注入する",
-                notice_text: "既に意志を注入されましたか？こちらから魂の記録を提出してください：",
-                btn_form: "支援者フィードバック調査を回答する"
-            }
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_title: "Manifest Your Will", btn_kofi: "IGNITE VIA KO-FI", t1_h: "【 Monument of Will 】", t1_p: "Your name eternally carved into the monuments of this world.", t2_h: "【 Soul Projection 】", t2_p: "Align an NPC with your essence—name, visual, law, and motifs.", notice_1: "Already supported the project?", notice_2: "The feedback form link is in your donation receipt.", notice_3: "If you missed it, please contact the developer." },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_title: "注入你的意志", btn_kofi: "透過 KO-FI 注入意志", t1_h: "【 意志之碑 】", t1_p: "您的名字將被永久刻錄於遊戲世界的紀念碑中。", t2_h: "【 靈魂投影 】", t2_p: "將 NPC 與您的本質對齊——包含姓名、外觀、法則與專屬音律。", notice_1: "已經完成支持？", notice_2: "回饋調查表單連結包含在您的贊助收據訊息中。", notice_3: "若您遺漏了連結，請聯繫開發者。" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_title: "意志を具現化する", btn_kofi: "KO-FI で意志を注入する", t1_h: "【 意志の碑 】", t1_p: "ゲーム内の碑石に君の名を刻む。", t2_h: "【 魂の投影 】", t2_p: "名前、外見、法則、音律など、君の本質を NPC に同期させる。", notice_1: "既に支援されましたか？", notice_2: "フィードバックフォームのリンクは支援完了メッセージに記載されています。", notice_3: "リンクが見当たらない場合は開発者にご連絡ください。" }
         };
 
         function setLang(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
-                if (translations[lang][key]) {
-                    el.innerText = translations[lang][key];
-                }
+                if (translations[lang][key]) el.innerText = translations[lang][key];
             });
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang === 'zh' ? '繁中' : lang === 'ja' ? '日本' : 'en'));
-            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + lang);
+            if (activeBtn) activeBtn.classList.add('active');
         }
-
-        // 初始化語系
-        setLang(localStorage.getItem('preferredLang') || 'en');
+        window.onload = () => { setLang(localStorage.getItem('preferredLang') || 'en'); };
     </script>
 </body>
 </html>
