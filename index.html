@@ -8,11 +8,11 @@
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
         body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", "MS Gothic", serif; margin: 0; line-height: 1.6; }
         nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; background: rgba(5,5,5,0.9); z-index: 100; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; }
+        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
         .lang-switcher { margin-top: 10px; }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
-        .lang-btn.active { border-color: var(--accent); color: var(--accent); }
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 5px var(--accent); }
         .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         h1 { font-size: clamp(2rem, 10vw, 4rem); letter-spacing: 10px; color: #fff; margin: 0; }
         .content { max-width: 800px; margin: 40px auto; padding: 0 25px; }
@@ -21,64 +21,45 @@
 </head>
 <body>
     <nav>
-        <div class="nav-links">
-            <a href="index.html" class="active" data-t="nav_world">WORLD</a>
-            <a href="monument.html" data-t="nav_monument">MONUMENT</a>
-            <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
-        </div>
+        <a href="index.html" class="active" data-t="nav_world">WORLD</a>
+        <a href="monument.html" data-t="nav_monument">MONUMENT</a>
+        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
         <div class="lang-switcher">
-            <button class="lang-btn" onclick="setLang('en')">EN</button>
-            <button class="lang-btn" onclick="setLang('zh')">繁中</button>
-            <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
+            <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
 
     <div class="hero">
-        <h1 id="title">S.T.A.T.U.T.E.S.</h1>
+        <h1>S.T.A.T.U.T.E.S.</h1>
         <p class="quote" data-t="hero_quote">"Destiny is set, but Will can still change the world."</p>
     </div>
 
     <div class="content">
         <h2 data-t="h_about">The Voice of the World</h2>
-        <p data-t="p_about">In the "Safe Cage", you cannot change your own class. But your will determines how other souls vibrate.</p>
+        <p data-t="p_about">In this world, everyone is born with a predetermined fate. You cannot flip your destiny, but your Will determines how other souls vibrate.</p>
     </div>
 
     <script>
         const translations = {
-            en: {
-                nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE",
-                hero_quote: '"Destiny is set, but Will can still change the world."',
-                h_about: "The Voice of the World",
-                p_about: "At age 10, the Voice declares your fate. You are born into a 'Safe Cage' of labor. You cannot flip your destiny, but your Will can shake the world."
-            },
-            zh: {
-                nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志",
-                hero_quote: '「命運是既定的，但意志仍能改變世界。」',
-                h_about: "世界之聲的宣告",
-                p_about: "在十歲那天，世界之聲決定了你的命運。你身處「安穩的牢籠」無法翻身，但你的意志，將決定他人靈魂的震動方向。"
-            },
-            ja: {
-                nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入",
-                hero_quote: '「運命は定められているが、意志は世界を変えられる。」',
-                h_about: "世界の声の宣告",
-                p_about: "10歳のあの日、世界の声は君の運命を決めた。「安穏たる牢獄」の中で抗うことはできない。しかし、君の意志は他者の魂を震わせるだろう。"
-            }
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", hero_quote: '"Destiny is set, but Will can still change the world."', h_about: "The Voice of the World", p_about: "In this world, everyone is born with a predetermined fate. You cannot flip your destiny, but your Will determines how other souls vibrate." },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", hero_quote: '「命運是既定的，但意志仍能改變世界。」', h_about: "世界之聲的宣告", p_about: "在這個世界上，每個人生來都有既定的命運。你無法翻轉你的命運，但你的意志將決定他人靈魂的震動方向。" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", hero_quote: '「運命は定められているが、意志は世界を変えられる。」', h_about: "世界の声の宣告", p_about: "この世界では、誰もが定められた運命を持って生まれてくる。運命を覆すことはできないが、君の意志は他者の魂を震わせるだろう。" }
         };
 
         function setLang(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
-                el.innerText = translations[lang][key];
+                if (translations[lang][key]) el.innerText = translations[lang][key];
             });
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang));
-            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + lang);
+            if (activeBtn) activeBtn.classList.add('active');
         }
 
-        // 初始載入
-        const savedLang = localStorage.getItem('preferredLang') || 'en';
-        setLang(savedLang);
+        window.onload = () => { setLang(localStorage.getItem('preferredLang') || 'en'); };
     </script>
 </body>
 </html>
