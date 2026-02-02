@@ -14,26 +14,25 @@
         .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); }
         
+        /* 桌面版視覺 (原本的 5rem 高冷風格) */
         .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #111; padding: 40px 20px; text-align: center; }
         h1 { font-size: 5rem; letter-spacing: 20px; color: #fff; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
-        
-        /* 手機板核心修正：之前幫你調好的都在這 */
+        .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 20px; margin: 40px 0; font-size: 1.1rem; max-width: 800px; text-align: left; }
+        .content { max-width: 800px; margin: 80px auto; padding: 0 40px; }
+        h2 { border-bottom: 1px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
+
+        /* 手機版適配 (之前調好的一版) */
         @media (max-width: 768px) {
             h1 { font-size: 12vw; letter-spacing: 5px; margin-top: 20px; }
             nav a { margin: 0 8px; font-size: 0.8rem; }
             .hero { min-height: 40vh; }
-            .quote { font-size: 0.9rem !important; width: 90% !important; margin: 30px auto !important; padding: 0 15px !important; }
+            .quote { font-size: 0.95rem !important; width: 85% !important; margin: 30px auto !important; padding: 10px 15px !important; border-left: none !important; border-top: 1px solid var(--accent) !important; text-align: center !important; }
             .content { padding: 0 25px !important; margin: 50px auto !important; text-align: center; }
-            h2 { font-size: 1.3rem; }
             .observer-vessel { width: 50px !important; bottom: 15px !important; right: 15px !important; }
         }
 
-        .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 20px; margin: 40px 0; font-size: 1.1rem; max-width: 800px; }
-        .content { max-width: 800px; margin: 80px auto; padding: 0 40px; }
-        h2 { border-bottom: 1px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
-
-        /* Observer 圖片 */
-        .observer-vessel { position: fixed; bottom: 25px; right: 25px; width: 80px; z-index: 1000; opacity: 0.5; image-rendering: pixelated; pointer-events: none; animation: float 5s infinite ease-in-out; }
+        /* Observer 角色圖 */
+        .observer-vessel { position: fixed; bottom: 30px; right: 30px; width: 80px; z-index: 1000; opacity: 0.5; image-rendering: pixelated; pointer-events: none; animation: float 5s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
@@ -54,7 +53,7 @@
     <img src="character t1.png" class="observer-vessel">
 
     <div class="hero">
-        <h1 id="main-title">S.T.A.T.U.T.E.S.</h1>
+        <h1>S.T.A.T.U.T.E.S.</h1>
         <div class="quote" data-t="hero_quote">"Destiny is set, but Will can still change the world."</div>
     </div>
 
@@ -82,7 +81,7 @@
             document.getElementById('btn-' + lang).classList.add('active');
         }
 
-        // 音樂同步與「意志標記」邏輯
+        // 音樂意志同步邏輯
         const audio = document.getElementById('bgm');
         function syncAudio() {
             const savedTime = localStorage.getItem('bgm_time');
@@ -90,16 +89,15 @@
             
             if (savedTime) audio.currentTime = parseFloat(savedTime);
             
-            // 檢查是否有互動過
+            // 已有意志標記時，嘗試自動播放或待機喚醒
             if (isActive === 'true') {
                 audio.play().catch(() => {
-                    // 若被瀏覽器擋下，監聽任何觸碰動作來喚醒
                     const wake = () => { audio.play(); document.removeEventListener('pointerdown', wake); };
                     document.addEventListener('pointerdown', wake);
                 });
             }
 
-            // 第一次點擊時啟動音樂並記錄「意志」
+            // 捕捉第一次互動來點燃意志
             document.addEventListener('click', () => {
                 if (audio.paused) {
                     audio.play();
@@ -107,7 +105,7 @@
                 }
             }, { once: true });
 
-            // 每 0.5 秒同步一次進度
+            // 意志同步記錄
             setInterval(() => {
                 if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime);
             }, 500);
