@@ -2,100 +2,51 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Monument | S.T.A.T.U.T.E.S.</title>
     <style>
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
-        body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", sans-serif; margin: 0; text-align: center; }
-        nav { padding: 20px; border-bottom: 1px solid #1a1a1a; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        html, body { width: 100%; max-width: 100vw; overflow-x: hidden; background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", serif; margin: 0; padding: 0; text-align: center; }
+        nav { padding: 15px 0; border-bottom: 1px solid #1a1a1a; background: rgba(5,5,5,0.98); }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 8px; }
+        nav a { color: #555; text-decoration: none; font-weight: bold; font-size: 0.8rem; padding: 5px 10px; }
         nav a:hover, nav a.active { color: var(--accent); }
-        .lang-switcher { margin-top: 10px; }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
-        .lang-btn.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 5px var(--accent); }
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 6px; cursor: pointer; font-size: 0.7rem; }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); }
         .container { max-width: 800px; margin: 50px auto; padding: 0 20px; }
-        .progress-container { background: #111; height: 30px; border: 1px solid #333; margin: 30px 0; position: relative; }
+        .progress-container { background: #111; height: 30px; border: 1px solid #333; margin: 30px 0; }
         #progress-bar { background: var(--accent); height: 100%; width: 0%; transition: width 2s ease-out; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 40px; }
-        .tag { border: 1px solid #222; padding: 10px; font-size: 0.8rem; color: #666; transition: 0.3s; }
-        .tag:hover { border-color: var(--accent); color: #fff; }
-
-        /* 角色外觀設置 */
-        .observer-vessel {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 80px;
-            z-index: 50;
-            opacity: 0.6;
-            image-rendering: pixelated;
-            animation: float-pulse 5s infinite ease-in-out;
-        }
-        @keyframes float-pulse {
-            0%, 100% { transform: translateY(0); opacity: 0.5; }
-            50% { transform: translateY(-10px); opacity: 0.8; }
-            98% { transform: translateX(1px); filter: brightness(1.2); }
-        }
-
-            /* 通用手機版修正補丁 */
-@media (max-width: 768px) {
-    /* 導航列防止擠爆 */
-            nav { padding: 15px 5px; }
-            nav a { margin: 0 5px; font-size: 0.8rem; letter-spacing: 1px; }
-    
-    /* 內容容器留白減少 */
-            .container, .content { padding: 0 15px; margin-top: 30px; }
-    
-    /* 角色位置調整，避免遮擋內容 */
-            .observer-vessel {
-                width: 50px !important;
-                bottom: 10px !important;
-                right: 10px !important;
-                opacity: 0.4;
-                pointer-events: none; /* 防止遮擋點擊 */
-    }
-
-    /* 文字縮放 */
-    h1, h2 { font-size: 1.8rem !important; letter-spacing: 3px !important; }
-}
+        .observer-vessel { position: fixed; bottom: 15px; right: 15px; width: 50px; z-index: 1000; opacity: 0.4; image-rendering: pixelated; pointer-events: none; animation: float-pulse 5s infinite ease-in-out; }
+        @keyframes float-pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html" data-t="nav_world">WORLD</a>
-        <a href="monument.html" class="active" data-t="nav_monument" style="color:var(--accent)">MONUMENT</a>
-        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+        <div class="nav-links">
+            <a href="index.html" data-t="nav_world">WORLD</a>
+            <a href="monument.html" class="active" data-t="nav_monument">MONUMENT</a>
+            <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+        </div>
         <div class="lang-switcher">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
-
-    <img src="character t1.png" alt="Observer" class="observer-vessel">
-
+    <img src="character t1.png" class="observer-vessel">
     <div class="container">
         <h2 data-t="h_intensity">Will Intensity</h2>
-        <div class="progress-container">
-            <div id="progress-bar"></div>
-        </div>
-        <p id="progress-text" style="letter-spacing: 2px;">0 / 5000 USD</p>
-
-        <h3 data-t="h_witnesses" style="margin-top:60px">Witnesses</h3>
-        <div class="grid">
-            <div class="tag">Fatum</div>
-        </div>
+        <div class="progress-container"><div id="progress-bar"></div></div>
+        <p id="progress-text">0 / 2000000 USD</p>
     </div>
-
+    <audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
     <script>
-        const currentTotal = 0; 
-        const goal = 65000;
+        const audio = document.getElementById('bgm');
         const translations = {
-            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_intensity: "Will Intensity", h_witnesses: "The Witnesses" },
-            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_intensity: "意志強度", h_witnesses: "見證者名單" },
-            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_intensity: "意志の強度", h_witnesses: "目撃者の記録" }
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_intensity: "Will Intensity" },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_intensity: "意志強度" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_intensity: "意志の強度" }
         };
-
         function setLang(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-t]').forEach(el => {
@@ -103,18 +54,26 @@
                 if (translations[lang][key]) el.innerText = translations[lang][key];
             });
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById('btn-' + lang);
-            if (activeBtn) activeBtn.classList.add('active');
+            document.getElementById('btn-' + lang).classList.add('active');
         }
-
+        function syncWill() {
+            const savedTime = localStorage.getItem('bgm_time');
+            const isActive = localStorage.getItem('bgm_active');
+            if (savedTime) audio.currentTime = parseFloat(savedTime);
+            if (isActive === 'true') {
+                audio.play().catch(() => {
+                    const wakeUp = () => { audio.play(); document.removeEventListener('pointerdown', wakeUp); };
+                    document.addEventListener('pointerdown', wakeUp);
+                });
+            }
+            document.addEventListener('click', () => { audio.play(); localStorage.setItem('bgm_active', 'true'); }, { once: true });
+            setInterval(() => { if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime); }, 500);
+        }
         window.onload = () => {
             setLang(localStorage.getItem('preferredLang') || 'en');
-            const percent = (currentTotal / goal) * 100;
-            document.getElementById('progress-bar').style.width = percent + '%';
-            document.getElementById('progress-text').innerText = `${currentTotal} / ${goal} USD`;
+            syncWill();
+            document.getElementById('progress-bar').style.width = '0%';
         };
     </script>
 </body>
 </html>
-
-
