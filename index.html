@@ -13,38 +13,36 @@
         .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); }
         
-        /* 桌面版視覺 */
+        /* 桌面版維持 5rem / 20px */
         .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #111; }
         h1 { font-size: 5rem; letter-spacing: 20px; color: #fff; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
         .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 20px; margin: 40px 0; font-size: 1.1rem; max-width: 800px; }
         .content { max-width: 800px; margin: 80px auto; padding: 0 40px; }
         h2 { border-bottom: 1px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
 
-        /* 你要的：手機版極簡文字縮放方案 */
+        /* 手機版暴力修正：縮小到絕對不跑版 */
         @media (max-width: 768px) {
-            h1 { font-size: 10vw !important; letter-spacing: 2px !important; } /* 縮到最小不換行 */
-            .hero { height: auto !important; padding: 40px 10px !important; }
+            h1 { 
+                font-size: 8vw !important; /* 再縮小 */
+                letter-spacing: 1px !important; /* 強制關閉原本的 20px 字距 */
+                width: 100% !important;
+                text-align: center !important;
+                display: block !important;
+            }
+            .hero { height: auto !important; padding: 50px 0 !important; }
             .quote { 
                 font-size: 0.85rem !important; 
-                width: 90% !important; 
+                width: 85% !important; 
                 margin: 20px auto !important; 
                 padding: 10px !important; 
                 border-left: none !important; 
                 border-top: 1px solid var(--accent) !important; 
                 text-align: center !important; 
             }
-            .content { 
-                padding: 0 20px !important; 
-                margin: 30px auto !important; 
-                text-align: center !important; 
-                font-size: 0.9rem !important;
-            }
-            h2 { font-size: 1.1rem !important; margin-bottom: 15px !important; }
-            .observer-vessel { width: 45px !important; bottom: 10px !important; right: 10px !important; }
-            nav a { margin: 0 5px; font-size: 0.75rem; }
+            .content { padding: 0 25px !important; margin: 40px auto !important; text-align: center !important; }
+            .observer-vessel { width: 50px !important; bottom: 15px !important; right: 15px !important; }
         }
 
-        /* 像素小人 */
         .observer-vessel { position: fixed; bottom: 30px; right: 30px; width: 80px; z-index: 1000; opacity: 0.5; image-rendering: pixelated; pointer-events: none; animation: float 5s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
