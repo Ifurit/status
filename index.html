@@ -2,65 +2,108 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>S.T.A.T.U.T.E.S. | Official</title>
     <style>
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
-        body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", "MS Gothic", serif; margin: 0; line-height: 1.6; overflow-x: hidden; }
         
-        /* 導航列響應式優化 */
-        nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; background: rgba(5,5,5,0.95); z-index: 100; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; display: inline-block; }
+        /* 基礎設置，防止手機版左右晃動 */
+        html, body { width: 100%; overflow-x: hidden; background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", "MS Gothic", serif; margin: 0; padding: 0; line-height: 1.6; }
+
+        /* 導航列：使用 Flex 佈局並允許換行 */
+        nav { 
+            padding: 15px 10px; 
+            text-align: center; 
+            border-bottom: 1px solid #1a1a1a; 
+            position: sticky; 
+            top: 0; 
+            background: rgba(5,5,5,0.95); 
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        nav a { color: #555; text-decoration: none; font-weight: bold; font-size: 0.85rem; transition: 0.3s; padding: 5px 8px; }
         nav a:hover, nav a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-        .lang-switcher { margin-top: 10px; }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
+
+        .lang-switcher { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; }
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; transition: 0.3s; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 5px var(--accent); }
 
-        /* 內容區塊 */
-        .hero { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
-        h1 { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: clamp(5px, 2vw, 15px); color: #fff; margin: 0; }
-        .content { max-width: 800px; margin: 0 auto 40px; padding: 0 25px; }
-        .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 15px; margin: 30px 0; font-size: 0.95rem; }
+        /* 主視覺區：優化字體縮放 */
+        .hero { 
+            min-height: 40vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            padding: 60px 20px 20px; 
+        }
+        h1 { 
+            font-size: clamp(1.8rem, 10vw, 4rem); 
+            letter-spacing: clamp(4px, 2vw, 15px); 
+            color: #fff; 
+            margin: 0; 
+            width: 100%;
+        }
+        .quote { 
+            font-style: italic; 
+            color: #444; 
+            border-left: 2px solid var(--accent); 
+            padding: 0 15px; 
+            margin: 20px auto; 
+            font-size: 0.9rem; 
+            max-width: 90%;
+            text-align: left;
+        }
 
-        /* 觀測者角色 */
+        /* 內容區 */
+        .content { max-width: 800px; margin: 0 auto 100px; padding: 0 25px; box-sizing: border-box; }
+        h2 { font-size: 1.5rem; color: #eee; margin-top: 40px; }
+
+        /* 觀測者角色：手機版隱藏或縮到最小 */
         .observer-vessel {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
             width: 80px;
             z-index: 1000;
             opacity: 0.6;
             image-rendering: pixelated;
             animation: float-pulse 5s infinite ease-in-out;
-            pointer-events: none; /* 防止在手機上擋住點擊 */
+            pointer-events: none;
         }
 
-        /* 手機版 (Mobile) 專屬補丁 */
-        @media (max-width: 768px) {
-            nav { padding: 15px 5px; }
-            nav a { margin: 0 8px; font-size: 0.8rem; }
-            .hero { padding: 60px 15px; }
-            .content { padding: 0 20px; }
+        /* 手機版 RWD 修正 */
+        @media (max-width: 480px) {
+            nav { padding: 10px 5px; }
+            nav a { font-size: 0.75rem; margin: 0 5px; }
+            .hero { padding: 40px 10px; }
             .observer-vessel {
-                width: 50px; /* 手機版明顯縮小 */
-                bottom: 15px;
-                right: 15px;
-                opacity: 0.4;
+                width: 45px;
+                bottom: 10px;
+                right: 10px;
+                opacity: 0.3;
             }
         }
 
         @keyframes float-pulse {
             0%, 100% { transform: translateY(0); opacity: 0.5; }
             50% { transform: translateY(-10px); opacity: 0.8; }
-            98% { transform: translateX(1px); filter: brightness(1.2); }
+            98% { transform: translateX(1px); filter: brightness(1.1); }
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html" class="active" data-t="nav_world">WORLD</a>
-        <a href="monument.html" data-t="nav_monument">MONUMENT</a>
-        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+        <div class="nav-links">
+            <a href="index.html" class="active" data-t="nav_world">WORLD</a>
+            <a href="monument.html" data-t="nav_monument">MONUMENT</a>
+            <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+        </div>
         <div class="lang-switcher">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
