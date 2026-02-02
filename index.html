@@ -6,27 +6,29 @@
     <title>S.T.A.T.U.T.E.S. | Official</title>
     <style>
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
-        body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", "MS Gothic", serif; margin: 0; line-height: 1.6; }
+        body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", "MS Gothic", serif; margin: 0; line-height: 1.6; overflow-x: hidden; }
         nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; background: rgba(5,5,5,0.9); z-index: 100; }
         nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-        .lang-switcher { margin-top: 10px; }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); }
         
-        /* 核心修正：大螢幕維持原樣，手機縮放標題 */
-        .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #111; padding: 20px; }
+        /* 標題與手機適配 */
+        .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #111; padding: 0 20px; }
         h1 { font-size: 5rem; letter-spacing: 20px; color: #fff; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.1); text-align: center; }
         
         @media (max-width: 768px) {
-            h1 { font-size: 12vw; letter-spacing: 5px; } /* 手機模式標題自動縮放，不切斷 */
-            nav a { margin: 0 8px; font-size: 0.8rem; }
+            h1 { font-size: 12vw; letter-spacing: 5px; } /* 手機縮放標題 */
+            .quote { font-size: 0.9rem !important; width: 90%; }
         }
 
         .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 20px; margin: 40px 0; font-size: 1.1rem; }
         .content { max-width: 800px; margin: 80px auto; padding: 0 40px; }
         h2 { border-bottom: 1px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
-        footer { text-align: center; padding: 40px; color: #222; font-size: 0.8rem; border-top: 1px solid #111; }
+
+        /* 你的 Observer 圖片 */
+        .observer-vessel { position: fixed; bottom: 20px; right: 20px; width: 80px; z-index: 1000; opacity: 0.6; image-rendering: pixelated; pointer-events: none; animation: float 5s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
@@ -36,12 +38,15 @@
             <a href="monument.html" data-t="nav_monument">MONUMENT</a>
             <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
         </div>
-        <div class="lang-switcher">
+        <div class="lang-switcher" style="margin-top:10px;">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
+
+    <img src="character t1.png" class="observer-vessel">
+
     <div class="hero">
         <h1>S.T.A.T.U.T.E.S.</h1>
         <div class="quote" data-t="hero_quote">"Destiny is set, but Will can still change the world."</div>
@@ -50,7 +55,6 @@
         <h2 data-t="h_about">The Voice of the World</h2>
         <p data-t="p_about">In this world, everyone is born with a predetermined fate. You cannot flip your destiny, but your Will determines how other souls vibrate.</p>
     </div>
-    <footer>© 2025 FATUM PROJECT. SYSTEM STATUS: OPERATIONAL.</footer>
 
     <audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
 
