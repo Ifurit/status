@@ -19,6 +19,23 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 40px; }
         .tag { border: 1px solid #222; padding: 10px; font-size: 0.8rem; color: #666; transition: 0.3s; }
         .tag:hover { border-color: var(--accent); color: #fff; }
+
+        /* 角色外觀設置 */
+        .observer-vessel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            z-index: 50;
+            opacity: 0.6;
+            image-rendering: pixelated;
+            animation: float-pulse 5s infinite ease-in-out;
+        }
+        @keyframes float-pulse {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-10px); opacity: 0.8; }
+            98% { transform: translateX(1px); filter: brightness(1.2); }
+        }
     </style>
 </head>
 <body>
@@ -32,6 +49,8 @@
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
+
+    <img src="C:\Users\user\Desktop\獨立遊戲\圖片\character\character t1.png" alt="Observer" class="observer-vessel">
 
     <div class="container">
         <h2 data-t="h_intensity">Will Intensity</h2>
@@ -75,4 +94,3 @@
     </script>
 </body>
 </html>
-
