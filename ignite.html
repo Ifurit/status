@@ -7,29 +7,57 @@
     <style>
         :root { --accent: #7a0000; --patreon: #f96854; --bg: #050505; --text: #c0c0c0; }
         body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", sans-serif; margin: 0; line-height: 1.6; }
+        
+        /* 導航列 */
         nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; background: #050505; }
         nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--accent); }
         .lang-switcher { margin-top: 10px; }
         .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); }
-        .container { max-width: 600px; margin: 50px auto; padding: 0 25px; }
-        h2 { text-align: center; color: #fff; letter-spacing: 3px; margin-bottom: 40px; }
-        .tier { background: #111; padding: 25px; border: 1px solid #222; margin-bottom: 20px; border-left: 4px solid var(--accent); }
-        .tier h3 { color: var(--accent); margin: 0 0 10px 0; font-size: 1.2rem; }
-        .tier p { margin: 0; font-size: 0.9rem; color: #888; }
+
+        /* 主容器 */
+        .container { max-width: 600px; margin: 60px auto; padding: 0 25px; }
+        h2 { text-align: center; color: #fff; letter-spacing: 5px; margin-bottom: 40px; font-weight: normal; }
         
-        .btn-group { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-        .btn-pay { display: block; text-align: center; padding: 18px; text-decoration: none; font-weight: bold; letter-spacing: 2px; transition: 0.3s; }
+        /* 神祕感描述區塊 */
+        .manifesto { background: rgba(255,255,255,0.02); padding: 30px; border-top: 1px solid #222; border-bottom: 1px solid #222; text-align: center; margin-bottom: 40px; }
+        .manifesto p { margin: 0; font-size: 0.95rem; letter-spacing: 1px; color: #aaa; }
+
+        /* 按鈕區 */
+        .btn-group { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
+        .btn-pay { display: block; text-align: center; padding: 20px; text-decoration: none; font-weight: bold; letter-spacing: 2px; transition: 0.4s; border-radius: 2px; }
         .btn-kofi { background: var(--accent); color: #fff; }
+        .btn-kofi:hover { background: #a00000; box-shadow: 0 0 15px rgba(122, 0, 0, 0.4); }
         .btn-patreon { background: #fff; color: #000; border: 1px solid #fff; }
-        .btn-patreon:hover { background: var(--patreon); color: #fff; border-color: var(--patreon); }
+        .btn-patreon:hover { background: #000; color: #fff; }
+
+        /* 提示資訊 */
+        .form-notice { margin-top: 50px; padding: 25px; border: 1px dashed #333; text-align: center; }
+        .form-notice p { margin: 5px 0; font-size: 0.85rem; }
         
-        .alt-notice { text-align: center; margin-top: 20px; font-size: 0.85rem; color: #666; }
-        .form-notice { margin-top: 40px; padding: 20px; border: 1px dashed #444; text-align: center; background: rgba(255,255,255,0.02); }
+        footer { text-align: center; padding: 40px; font-size: 0.7rem; color: #333; letter-spacing: 2px; }
+
+        /* 角色外觀設置 */
+        .observer-vessel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            z-index: 50;
+            opacity: 0.6;
+            image-rendering: pixelated;
+            animation: float-pulse 5s infinite ease-in-out;
+        }
+        @keyframes float-pulse {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-10px); opacity: 0.8; }
+            98% { transform: translateX(1px); filter: brightness(1.2); }
+        }
     </style>
 </head>
 <body>
+
     <nav>
         <a href="index.html" data-t="nav_world">WORLD</a>
         <a href="monument.html" data-t="nav_monument">MONUMENT</a>
@@ -41,57 +69,39 @@
         </div>
     </nav>
 
+    <img src="C:\Users\user\Desktop\獨立遊戲\圖片\character\character t1.png" alt="Observer" class="observer-vessel">
+
     <div class="container">
         <h2 data-t="h_title">Manifest Your Will</h2>
         
-        <div class="tier">
-            <h3 data-t="t1_h">【 Monument of Will 】</h3>
-            <p data-t="t1_p">Your name eternally carved into the monuments of this world.</p>
-        </div>
-        <div class="tier">
-            <h3 data-t="t2_h">【 Soul Projection 】</h3>
-            <p data-t="t2_p">Align an NPC with your essence—name, visual, law, and motifs.</p>
+        <div class="manifesto">
+            <p data-t="p_main">
+                The world of S.T.A.T.U.T.E.S. is sustained by your essence. <br>
+                Any form of support allows your will to be projected into the laws of this reality.
+            </p>
         </div>
 
         <div class="btn-group">
             <a href="https://ko-fi.com/status_dev" target="_blank" class="btn-pay btn-kofi" data-t="btn_kofi">IGNITE VIA KO-FI</a>
-            <p class="alt-notice" data-t="alt_msg">Unwilling to use Ko-fi? Support via Patreon instead.</p>
-            <a href="https://www.patreon.com/c/Fatumproject" target="_blank" class="btn-pay btn-patreon">SUPPORT VIA PATREON</a>
+            <a href="https://www.patreon.com/c/Fatumproject" target="_blank" class="btn-pay btn-patreon" data-t="btn_patreon">RESONATE VIA PATREON</a>
         </div>
 
         <div class="form-notice">
-            <p data-t="notice_1">Already supported the project?</p>
-            <p data-t="notice_2" style="color: #fff; font-weight: bold;">The feedback form link is in your donation receipt / Patreon welcome message.</p>
-            <p data-t="notice_3" style="font-size: 0.8rem; color: #666;">If you missed it, please contact the developer.</p>
+            <p data-t="notice_1" style="color: #666;">After resonance is complete,</p>
+            <p data-t="notice_2" style="color: #fff; font-weight: bold;">Please check your receipt or welcome message for the soul data form.</p>
+            <p data-t="notice_3" style="font-size: 0.75rem; color: #444; margin-top: 15px;">Your contribution will determine the depth of your projection.</p>
         </div>
     </div>
 
+    <footer>
+        S.T.A.T.U.T.E.S. | FATUM PROJECT
+    </footer>
+
     <script>
         const translations = {
-            en: { 
-                nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE",
-                h_title: "Manifest Your Will", btn_kofi: "IGNITE VIA KO-FI",
-                t1_h: "【 Monument of Will 】", t1_p: "Your name eternally carved into the monuments of this world.",
-                t2_h: "【 Soul Projection 】", t2_p: "Align an NPC with your essence—name, visual, law, and motifs.",
-                alt_msg: "Unwilling to use Ko-fi? Support via Patreon instead.",
-                notice_1: "Already supported the project?", notice_2: "The feedback form link is in your donation receipt / Patreon welcome message.", notice_3: "If you missed it, please contact the developer."
-            },
-            zh: { 
-                nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志",
-                h_title: "注入你的意志", btn_kofi: "透過 KO-FI 注入意志",
-                t1_h: "【 意志之碑 】", t1_p: "您的名字將被永久刻錄於遊戲世界的紀念碑中。",
-                t2_h: "【 靈魂投影 】", t2_p: "將 NPC 與您的本質對齊——包含姓名、外觀、法則與專屬音律。",
-                alt_msg: "若不願意使用 Ko-fi，請連結到 Patreon 做贊助。",
-                notice_1: "已經完成支持？", notice_2: "回饋表單連結包含在您的贊助收據或 Patreon 歡迎訊息中。", notice_3: "若您遺漏了連結，請聯繫開發者。"
-            },
-            ja: { 
-                nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入",
-                h_title: "意志を具現化する", btn_kofi: "KO-FI で意志を注入する",
-                t1_h: "【 意志の碑 】", t1_p: "ゲーム内の碑石に君の名を刻む。",
-                t2_h: "【 魂の投影 】", t2_p: "名前、外見、法則、音律など、君の本質を NPC に同期させる。",
-                alt_msg: "Ko-fi を使用したくない場合は、Patreon で支援してください。",
-                notice_1: "既に支援されましたか？", notice_2: "フォームのリンクは、支援完了メッセージまたは Patreon 歓迎メッセージに記載されています。", notice_3: "リンクが見当たらない場合は開発者にご連絡ください。"
-            }
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_title: "Manifest Your Will", p_main: "The world of S.T.A.T.U.T.E.S. is sustained by your essence. Any form of support allows your will to be projected into the laws of this reality.", btn_kofi: "IGNITE VIA KO-FI", btn_patreon: "RESONATE VIA PATREON", notice_1: "After resonance is complete,", notice_2: "Please check your receipt or welcome message for the soul data form.", notice_3: "Your contribution will determine the depth of your projection." },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_title: "注入你的意志", p_main: "《S.T.A.T.U.T.E.S.》的世界因你的存在而得以延續。任何形式的支持，都將使你的意志被投射於此現實的法則之中。", btn_kofi: "透過 KO-FI 注入意志", btn_patreon: "透過 PATREON 產生共鳴", notice_1: "當共鳴完成後，", notice_2: "請查看您的收據或歡迎訊息，以獲取靈魂檔案填寫連結。", notice_3: "貢獻的強度將決定意志投射的深度。" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_title: "意志を具現化する", p_main: "『S.T.A.T.U.T.E.S.』の世界は、君の存在によって維持されている。いかなる形の支援も、君の意志をこの現実の法則へと投影することを可能にする。", btn_kofi: "KO-FI で意志を注入する", btn_patreon: "PATREON で共鳴する", notice_1: "共鳴が完了した後、", notice_2: "領収書または歓迎メッセージを確認し、魂の記録フォームにアクセスしてください。", notice_3: "貢献の強さが、投影の深さを決定します。" }
         };
 
         function setLang(lang) {
@@ -104,6 +114,7 @@
             const activeBtn = document.getElementById('btn-' + lang);
             if (activeBtn) activeBtn.classList.add('active');
         }
+
         window.onload = () => { setLang(localStorage.getItem('preferredLang') || 'en'); };
     </script>
 </body>
