@@ -12,20 +12,16 @@
         nav a:hover, nav a.active { color: var(--accent); }
         .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); }
-        
         .container { max-width: 800px; margin: 80px auto; padding: 0 20px; }
         h2 { font-size: 2rem; letter-spacing: 5px; color: #fff; margin-bottom: 50px; }
-        
-        @media (max-width: 768px) {
-            h2 { font-size: 1.5rem; letter-spacing: 2px; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important; }
-        }
-
+        @media (max-width: 768px) { h2 { font-size: 1.5rem; letter-spacing: 2px; } }
         .progress-container { background: #111; height: 40px; border: 1px solid #333; margin: 40px 0; position: relative; }
         #progress-bar { background: var(--accent); height: 100%; width: 0%; transition: width 2s cubic-bezier(0.4, 0, 0.2, 1); }
         #progress-text { position: absolute; width: 100%; top: 0; line-height: 40px; font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; color: #fff; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 60px; }
         .tag { border: 1px solid #1a1a1a; padding: 15px; font-size: 0.8rem; color: #444; }
+        .observer-vessel { position: fixed; bottom: 20px; right: 20px; width: 80px; z-index: 1000; opacity: 0.6; image-rendering: pixelated; pointer-events: none; animation: float 5s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
@@ -35,15 +31,16 @@
             <a href="monument.html" class="active" data-t="nav_monument">MONUMENT</a>
             <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
         </div>
-        <div class="lang-switcher">
+        <div class="lang-switcher" style="margin-top:10px;">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
+    <img src="character t1.png" class="observer-vessel">
     <div class="container">
         <h2 data-t="h_intensity">Will Intensity</h2>
-        <div class="progress-container"><div id="progress-bar"></div><div id="progress-text">0 / 65,000 USD</div></div>
+        <div class="progress-container"><div id="progress-bar"></div><div id="progress-text">0 / 2,000,000 USD</div></div>
         <h3 data-t="h_witnesses" style="margin-top:80px; color:#333; letter-spacing:3px;">The Witnesses</h3>
         <div class="grid"><div class="tag">Fatum</div></div>
     </div>
