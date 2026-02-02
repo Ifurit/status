@@ -17,6 +17,26 @@
         h1 { font-size: clamp(2rem, 10vw, 4rem); letter-spacing: 10px; color: #fff; margin: 0; }
         .content { max-width: 800px; margin: 40px auto; padding: 0 25px; }
         .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 15px; margin: 30px 0; }
+
+        /* 只針對角色加入的樣式，保持原色 */
+        .observer-vessel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px; /* 依照圖片比例建議大小 */
+            z-index: 50;
+            opacity: 0.6;
+            image-rendering: pixelated; /* 保持像素清晰不模糊 */
+            animation: float-pulse 5s infinite ease-in-out;
+            transition: opacity 0.5s;
+        }
+        .observer-vessel:hover { opacity: 1; }
+
+        @keyframes float-pulse {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-10px); opacity: 0.8; }
+            98% { transform: translateX(1px); filter: brightness(1.2); } /* 極輕微的閃爍，不改顏色 */
+        }
     </style>
 </head>
 <body>
@@ -30,6 +50,8 @@
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
         </div>
     </nav>
+
+    <img src="C:\Users\user\Desktop\獨立遊戲\圖片\character\character t1.png" alt="Observer" class="observer-vessel">
 
     <div class="hero">
         <h1>S.T.A.T.U.T.E.S.</h1>
