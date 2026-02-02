@@ -7,31 +7,31 @@
     <style>
         :root { --accent: #7a0000; --bg: #050505; --text: #c0c0c0; }
         body { background: var(--bg); color: var(--text); font-family: "Courier New", "Noto Sans TC", "MS Gothic", serif; margin: 0; line-height: 1.6; overflow-x: hidden; }
-        
         nav { padding: 20px; text-align: center; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; background: rgba(5,5,5,0.9); z-index: 100; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; display: inline-block; }
+        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; }
+        .lang-switcher { margin-top: 10px; }
+        .lang-btn { background: none; border: 1px solid #333; color: #555; padding: 2px 8px; cursor: pointer; font-size: 0.7rem; margin: 0 3px; transition: 0.3s; }
         .lang-btn.active { border-color: var(--accent); color: var(--accent); }
         
-        /* 桌面版視覺 (原本的 5rem 高冷風格) */
-        .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #111; padding: 40px 20px; text-align: center; }
+        /* 桌面版維持你原始的 5rem 設定 */
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #111; }
         h1 { font-size: 5rem; letter-spacing: 20px; color: #fff; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
-        .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 20px; margin: 40px 0; font-size: 1.1rem; max-width: 800px; text-align: left; }
+        .quote { font-style: italic; color: #444; border-left: 2px solid var(--accent); padding-left: 20px; margin: 40px 0; font-size: 1.1rem; }
         .content { max-width: 800px; margin: 80px auto; padding: 0 40px; }
         h2 { border-bottom: 1px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
+        footer { text-align: center; padding: 40px; color: #222; font-size: 0.8rem; border-top: 1px solid #111; }
 
-        /* 手機版適配 (之前調好的一版) */
+        /* 手機版適配：鎖定之前的最佳化比例 */
         @media (max-width: 768px) {
-            h1 { font-size: 12vw; letter-spacing: 5px; margin-top: 20px; }
-            nav a { margin: 0 8px; font-size: 0.8rem; }
-            .hero { min-height: 40vh; }
-            .quote { font-size: 0.95rem !important; width: 85% !important; margin: 30px auto !important; padding: 10px 15px !important; border-left: none !important; border-top: 1px solid var(--accent) !important; text-align: center !important; }
-            .content { padding: 0 25px !important; margin: 50px auto !important; text-align: center; }
+            h1 { font-size: 12vw !important; letter-spacing: 5px !important; }
+            .hero { height: auto; padding: 60px 20px; }
+            .quote { font-size: 0.95rem; width: 85%; margin: 30px auto; padding: 10px 15px; border-left: none; border-top: 1px solid var(--accent); text-align: center; }
+            .content { padding: 0 25px; margin: 40px auto; text-align: center; }
             .observer-vessel { width: 50px !important; bottom: 15px !important; right: 15px !important; }
         }
 
-        /* Observer 角色圖 */
+        /* 你的像素小人 */
         .observer-vessel { position: fixed; bottom: 30px; right: 30px; width: 80px; z-index: 1000; opacity: 0.5; image-rendering: pixelated; pointer-events: none; animation: float 5s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
@@ -43,7 +43,7 @@
             <a href="monument.html" data-t="nav_monument">MONUMENT</a>
             <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
         </div>
-        <div class="lang-switcher" style="margin-top:10px;">
+        <div class="lang-switcher">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
@@ -62,13 +62,15 @@
         <p data-t="p_about">In this world, everyone is born with a predetermined fate. You cannot flip your destiny, but your Will determines how other souls vibrate.</p>
     </div>
 
+    <footer>© 2025 FATUM PROJECT. SYSTEM STATUS: OPERATIONAL.</footer>
+
     <audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
 
     <script>
         const translations = {
-            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", hero_quote: '"Destiny is set, but Will can still change the world."', h_about: "The Voice of the World", p_about: "In this world, everyone is born with a predetermined fate. You cannot flip your destiny, but your Will determines how other souls vibrate." },
-            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", hero_quote: '「命運是既定的，但意志仍能改變世界。」', h_about: "世界之聲的宣告", p_about: "在這個世界上，每個人生來都有既定的命運。你無法翻轉你的命運，但你的意志將決定他人靈魂的震動方向。" },
-            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", hero_quote: '「運命は定められているが、意志は世界を変えられる。」', h_about: "世界の声の宣告", p_about: "この世界では、誰もが定められた運命を持って生まれてくる。運命を覆すことはできないが、君の意志は他者の魂を震わせるだろう。" }
+            en: { nav_world: \"WORLD\", nav_monument: \"MONUMENT\", nav_ignite: \"IGNITE\", hero_quote: '\"Destiny is set, but Will can still change the world.\"', h_about: \"The Voice of the World\", p_about: \"In this world, everyone is born with a predetermined fate. You cannot flip your destiny, but your Will determines how other souls vibrate.\" },
+            zh: { nav_world: \"世界觀\", nav_monument: \"意志之碑\", nav_ignite: \"注入意志\", hero_quote: '「命運是既定的，但意志仍能改變世界。」', h_about: \"世界之聲的宣告\", p_about: \"在這個世界上，每個人生來都有既定的命運。你無法翻轉你的命運，但你的意志將決定他人靈魂的震動方向。\" },
+            ja: { nav_world: \"世界観\", nav_monument: \"意志の碑\", nav_ignite: \"意志の注入\", hero_quote: '「運命は定められているが、意志は世界を変えられる。」', h_about: \"世界の声の宣告\", p_about: \"この世界では、誰もが定められた運命を持って生まれてくる。運命を覆すことはできないが、君の意志は他者の魂を震わせるだろう。\" }
         };
 
         function setLang(lang) {
@@ -86,29 +88,20 @@
         function syncAudio() {
             const savedTime = localStorage.getItem('bgm_time');
             const isActive = localStorage.getItem('bgm_active');
-            
             if (savedTime) audio.currentTime = parseFloat(savedTime);
-            
-            // 已有意志標記時，嘗試自動播放或待機喚醒
             if (isActive === 'true') {
                 audio.play().catch(() => {
                     const wake = () => { audio.play(); document.removeEventListener('pointerdown', wake); };
                     document.addEventListener('pointerdown', wake);
                 });
             }
-
-            // 捕捉第一次互動來點燃意志
             document.addEventListener('click', () => {
                 if (audio.paused) {
                     audio.play();
                     localStorage.setItem('bgm_active', 'true');
                 }
             }, { once: true });
-
-            // 意志同步記錄
-            setInterval(() => {
-                if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime);
-            }, 500);
+            setInterval(() => { if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime); }, 500);
         }
 
         window.onload = () => {
