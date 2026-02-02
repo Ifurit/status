@@ -36,6 +36,28 @@
             0%, 100% { transform: translateY(0); opacity: 0.5; }
             50% { transform: translateY(-10px); opacity: 0.8; }
             98% { transform: translateX(1px); filter: brightness(1.2); } /* 極輕微的閃爍，不改顏色 */
+
+            /* 通用手機版修正補丁 */
+@media (max-width: 768px) {
+            /* 導航列防止擠爆 */
+            nav { padding: 15px 5px; }
+            nav a { margin: 0 5px; font-size: 0.8rem; letter-spacing: 1px; }
+    
+    /* 內容容器留白減少 */
+            .container, .content { padding: 0 15px; margin-top: 30px; }
+    
+    /* 角色位置調整，避免遮擋內容 */
+            .observer-vessel {
+                width: 50px !important;
+                bottom: 10px !important;
+                right: 10px !important;
+                opacity: 0.4;
+                pointer-events: none; /* 防止遮擋點擊 */
+    }
+
+    /* 文字縮放 */
+    h1, h2 { font-size: 1.8rem !important; letter-spacing: 3px !important; }
+}
         }
     </style>
 </head>
@@ -85,4 +107,5 @@
     </script>
 </body>
 </html>
+
 
