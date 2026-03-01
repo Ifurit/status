@@ -27,6 +27,7 @@
             <a href="index.html" data-t="nav_world">WORLD</a>
             <a href="monument.html" data-t="nav_monument">MONUMENT</a>
             <a href="ignite.html" class="active" data-t="nav_ignite">IGNITE</a>
+            <a href="rules.html" data-t="nav_rules">RULES</a>
         </div>
         <div class="lang-switcher" style="margin-top:10px;">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -44,9 +45,9 @@
     <audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
     <script>
         const translations = {
-            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_title: "Manifest Your Will", p_main: "The world of S.T.A.T.U.T.E.S. is sustained by your essence.", btn_kofi: "IGNITE VIA KO-FI", btn_patreon: "RESONATE VIA PATREON" },
-            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_title: "注入你的意志", p_main: "《S.T.A.T.U.T.E.S.》的世界因你的存在而得以延續。", btn_kofi: "透過 KO-FI 注入意志", btn_patreon: "透過 PATREON 產生共鳴" },
-            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_title: "意志を具現化する", p_main: "『S.T.A.T.U.T.E.S.』の世界は、君の存在によって維持されている。", btn_kofi: "KO-FI で意志を注入する", btn_patreon: "PATREON で共鳴する" }
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", nav_rules: "RULES", h_title: "Manifest Your Will", p_main: "The world of S.T.A.T.U.T.E.S. is sustained by your essence.", btn_kofi: "IGNITE VIA KO-FI", btn_patreon: "RESONATE VIA PATREON" },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", nav_rules: "規則",h_title: "注入你的意志", p_main: "《S.T.A.T.U.T.E.S.》的世界因你的存在而得以延續。", btn_kofi: "透過 KO-FI 注入意志", btn_patreon: "透過 PATREON 產生共鳴" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", nav_rules: "ルール", h_title: "意志を具現化する", p_main: "『S.T.A.T.U.T.E.S.』の世界は、君の存在によって維持されている。", btn_kofi: "KO-FI で意志を注入する", btn_patreon: "PATREON で共鳴する" }
         };
         function setLang(lang) {
             localStorage.setItem('preferredLang', lang);
@@ -78,3 +79,4 @@
     </script>
 </body>
 </html>
+
