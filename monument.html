@@ -30,6 +30,7 @@
             <a href="index.html" data-t="nav_world">WORLD</a>
             <a href="monument.html" class="active" data-t="nav_monument">MONUMENT</a>
             <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+            <a href="rules.html" data-t="nav_rules">RULES</a>
         </div>
         <div class="lang-switcher" style="margin-top:10px;">
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -47,9 +48,9 @@
     <audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
     <script>
         const translations = {
-            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", h_intensity: "Will Intensity", h_witnesses: "The Witnesses" },
-            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志", h_intensity: "意志強度", h_witnesses: "見證者名單" },
-            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入", h_intensity: "意志の強度", h_witnesses: "目撃者の記録" }
+            en: { nav_world: "WORLD", nav_monument: "MONUMENT", nav_ignite: "IGNITE", nav_rules: "RULES", h_intensity: "Will Intensity", h_witnesses: "The Witnesses" },
+            zh: { nav_world: "世界觀", nav_monument: "意志之碑", nav_ignite: "注入意志",nav_rules: "規則" , h_intensity: "意志強度", h_witnesses: "見證者名單" },
+            ja: { nav_world: "世界観", nav_monument: "意志の碑", nav_ignite: "意志の注入",nav_rules: "ルール" , h_intensity: "意志の強度", h_witnesses: "目撃者の記録" }
         };
         function setLang(lang) {
             localStorage.setItem('preferredLang', lang);
@@ -82,4 +83,5 @@
     </script>
 </body>
 </html>
+
 
