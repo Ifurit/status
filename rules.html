@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rules | S.T.A.T.U.T.E.S.</title>
+    <style>
+        :root {
+            --accent: #7a0000;
+            --bg: #050505;
+            --text: #c0c0c0;
+            --dim: #2a2a2a;
+            --faint: #111;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Courier New", "Noto Sans TC", monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* NAV */
+        nav {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a1a;
+            background: rgba(5,5,5,0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        nav a:hover, nav a.active { color: var(--accent); }
+        .lang-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #555;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin: 0 3px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); }
+
+        /* HERO */
+        .hero {
+            padding: 80px 20px 40px;
+            text-align: center;
+            position: relative;
+        }
+        .hero-label {
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .hero h2 {
+            font-size: 2.5rem;
+            letter-spacing: 8px;
+            color: #fff;
+            font-weight: normal;
+        }
+        .hero-sub {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        /* DIVIDER */
+        .divider {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #2a2a2a, transparent);
+            margin: 0 auto;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 20px 30px 120px;
+        }
+
+        /* SYSTEM NOTICE */
+        .system-notice {
+            border: 1px solid #1a1a1a;
+            background: rgba(255,255,255,0.01);
+            padding: 24px 28px;
+            margin-bottom: 50px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .system-notice.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .system-notice::before {
+            content: attr(data-tag);
+            position: absolute;
+            top: -9px;
+            left: 20px;
+            background: var(--bg);
+            padding: 0 8px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: #333;
+        }
+        .system-notice p {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.9;
+        }
+        .system-notice p em {
+            color: #888;
+            font-style: normal;
+        }
+
+        /* RULE ITEMS */
+        .rule-list {
+            margin-bottom: 60px;
+        }
+        .rule-item {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 20px;
+            padding: 28px 0;
+            border-bottom: 1px solid #111;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .rule-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .rule-num {
+            font-size: 0.65rem;
+            color: #2a2a2a;
+            letter-spacing: 2px;
+            padding-top: 3px;
+            text-align: right;
+        }
+        .rule-body {}
+        .rule-title {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        .rule-text {
+            font-size: 0.9rem;
+            color: #777;
+            line-height: 1.9;
+        }
+        .rule-text .redacted {
+            background: #1a1a1a;
+            color: #1a1a1a;
+            padding: 0 4px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 2px;
+            user-select: none;
+        }
+        .rule-text .redacted:hover,
+        .rule-text .redacted.revealed {
+            background: rgba(122,0,0,0.15);
+            color: #888;
+        }
+        .rule-note {
+            margin-top: 14px;
+            font-size: 0.72rem;
+            color: #2a2a2a;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* TERMINAL BLOCK */
+        .terminal {
+            border: 1px solid #1a1a1a;
+            padding: 24px 28px;
+            margin: 50px 0;
+            position: relative;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .terminal.visible { opacity: 1; }
+        .terminal::before {
+            content: "SYS://";
+            position: absolute;
+            top: -9px;
+            left: 20px;
+            background: var(--bg);
+            padding: 0 8px;
+            font-size: 0.65rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+        }
+        .terminal-line {
+            font-size: 0.78rem;
+            color: #2a2a2a;
+            line-height: 2;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 0;
+            transition: max-width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .terminal-line.typed { max-width: 100%; }
+        .terminal-line.highlight { color: #444; }
+        .terminal-line.accent { color: var(--accent); opacity: 0.7; }
+        .cursor-blink {
+            display: inline-block;
+            width: 6px;
+            height: 12px;
+            background: var(--accent);
+            opacity: 0;
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 0%, 49% { opacity: 0.8; } 50%, 100% { opacity: 0; } }
+
+        /* CLOSING */
+        .closing {
+            text-align: center;
+            padding: 60px 0 20px;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .closing.visible { opacity: 1; }
+        .closing-line {
+            font-size: 0.7rem;
+            color: #222;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
+        .closing-main {
+            font-size: 0.85rem;
+            color: #444;
+            letter-spacing: 2px;
+        }
+
+        /* FLOATING CHARACTER */
+        .observer-vessel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            z-index: 1000;
+            opacity: 0.5;
+            image-rendering: pixelated;
+            pointer-events: none;
+            animation: float 5s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* SCAN LINE OVERLAY */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @media (max-width: 600px) {
+            .hero h2 { font-size: 1.6rem; letter-spacing: 4px; }
+            .container { padding: 20px 20px 80px; }
+            .rule-item { grid-template-columns: 30px 1fr; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-links">
+        <a href="index.html" data-t="nav_world">WORLD</a>
+        <a href="monument.html" data-t="nav_monument">MONUMENT</a>
+        <a href="rules.html" class="active" data-t="nav_rules">RULES</a>
+        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+    </div>
+    <div class="lang-switcher" style="margin-top:10px;">
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
+        <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
+    </div>
+</nav>
+
+<img src="character t1.png" class="observer-vessel">
+
+<div class="hero">
+    <div class="hero-label" data-t="hero_label">SYSTEM DOCUMENTATION</div>
+    <h2 data-t="hero_title">R U L E S</h2>
+    <div class="hero-sub" data-t="hero_sub">[ PARTIAL DISCLOSURE ]</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="container">
+
+    <div class="system-notice" data-tag="NOTICE">
+        <p data-t="notice_text">
+            <em data-t="notice_em">The following is an incomplete excerpt.</em><br><br>
+            <span data-t="notice_body">The full ruleset is not disclosed before play. What you choose, what you avoid, what you remove — the system observes all of it. This page contains only what is safe to know in advance.</span>
+        </p>
+    </div>
+
+    <div class="rule-list">
+
+        <div class="rule-item">
+            <div class="rule-num">01</div>
+            <div class="rule-body">
+                <div class="rule-title" data-t="r1_title">COMBAT IS NOT COMBAT</div>
+                <div class="rule-text" data-t="r1_text">Every battle in this game is a <span class="redacted" data-reveal="dialogue">████████</span> in disguise. You will never be told which battles matter. You will never be told what you are really doing when you play a card.</div>
+                <div class="rule-note" data-t="r1_note">// the system records your choices, not your victories</div>
+            </div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-num">02</div>
+            <div class="rule-body">
+                <div class="rule-title" data-t="r2_title">REMOVAL IS A DECLARATION</div>
+                <div class="rule-text" data-t="r2_text">When you remove a card from your deck, you are not optimizing. You are telling the system: <em data-t="r2_em">I reject this way of being.</em> The system will remember.</div>
+                <div class="rule-note" data-t="r2_note">// some paths close quietly, without announcement</div>
+            </div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-num">03</div>
+            <div class="rule-body">
+                <div class="rule-title" data-t="r3_title">THE VOICE DOES NOT EXPLAIN ITSELF</div>
+                <div class="rule-text" data-t="r3_text">The Voice of the World assigned your fate before you were ready. It does not justify. It does not negotiate. The only question it leaves behind: <span class="redacted" data-reveal="does fate require your consent?">████████████████████████████</span></div>
+                <div class="rule-note" data-t="r3_note">// hover to read what was almost hidden</div>
+            </div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-num">04</div>
+            <div class="rule-body">
+                <div class="rule-title" data-t="r4_title">THERE IS A PATH WITH NO NAME</div>
+                <div class="rule-text" data-t="r4_text">Most players will not find it. It cannot be found by searching. The condition to enter it is something you either do naturally, or you don't. The system will not confirm whether you are on it.</div>
+                <div class="rule-note" data-t="r4_note">// [REDACTED]</div>
+            </div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-num">05</div>
+            <div class="rule-body">
+                <div class="rule-title" data-t="r5_title">YOU CANNOT WIN BY FORCE</div>
+                <div class="rule-text" data-t="r5_text">Defeating an enemy ends the fight. It does not end anything else. The game is not asking whether you are strong enough. It is asking what kind of person you become when <span class="redacted" data-reveal="you are given the option to destroy">█████████████████████████████</span>.</div>
+                <div class="rule-note" data-t="r5_note">// strength is one answer. it is not the last one.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="terminal" id="terminal">
+        <div class="terminal-line" id="tl1">&gt; SESSION INITIALIZED</div>
+        <div class="terminal-line highlight" id="tl2">&gt; TRACKING: action history ............ active</div>
+        <div class="terminal-line highlight" id="tl3">&gt; TRACKING: avoidance patterns ........ active</div>
+        <div class="terminal-line highlight" id="tl4">&gt; TRACKING: interaction stance ........ active</div>
+        <div class="terminal-line" id="tl5">&gt; HIDDEN ROUTE STATUS: <span style="color:#7a0000">— — —</span></div>
+        <div class="terminal-line accent" id="tl6">&gt; NOTE: the system does not announce what it is measuring.</div>
+        <div class="terminal-line" id="tl7">&gt; <span class="cursor-blink"></span></div>
+    </div>
+
+    <div class="closing" id="closing">
+        <div class="closing-line" data-t="closing_label">— END OF PARTIAL DISCLOSURE —</div>
+        <div class="closing-main" data-t="closing_main">The rest is played, not read.</div>
+    </div>
+
+</div>
+
+<audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
+
+<script>
+const translations = {
+    en: {
+        nav_world: "WORLD", nav_monument: "MONUMENT", nav_rules: "RULES", nav_ignite: "IGNITE",
+        hero_label: "SYSTEM DOCUMENTATION",
+        hero_title: "R U L E S",
+        hero_sub: "[ PARTIAL DISCLOSURE ]",
+        notice_em: "The following is an incomplete excerpt.",
+        notice_body: "The full ruleset is not disclosed before play. What you choose, what you avoid, what you remove — the system observes all of it. This page contains only what is safe to know in advance.",
+        r1_title: "COMBAT IS NOT COMBAT",
+        r1_text: "Every battle in this game is a <span class='redacted' data-reveal='dialogue'>████████</span> in disguise. You will never be told which encounters matter. You will never be told what you are really doing when you act.",
+        r1_note: "// the system records your choices, not your victories",
+        r2_title: "HOW YOU ACT IS A DECLARATION",
+        r2_text: "When you choose how to face something, you are not just solving a problem. You are telling the system: <em>this is who I am.</em> The system will remember.",
+        r2_note: "// some paths close quietly, without announcement",
+        r3_title: "THE VOICE DOES NOT EXPLAIN ITSELF",
+        r3_text: "The Voice of the World assigned your fate before you were ready. It does not justify. It does not negotiate. The only question it leaves behind: <span class='redacted' data-reveal='does fate require your consent?'>████████████████████████████</span>",
+        r3_note: "// hover to read what was almost hidden",
+        r4_title: "THERE IS A PATH WITH NO NAME",
+        r4_text: "Most players will not find it. It cannot be found by searching. The condition to enter it is something you either do naturally, or you don't. The system will not confirm whether you are on it.",
+        r4_note: "// [REDACTED]",
+        r5_title: "YOU CANNOT WIN BY FORCE",
+        r5_text: "Defeating an enemy ends the encounter. It does not end anything else. The game is not asking whether you are strong enough. It is asking what kind of person you become when <span class='redacted' data-reveal='you are given the option to destroy'>█████████████████████████████</span>.",
+        r5_note: "// strength is one answer. it is not the last one.",
+        closing_label: "— END OF PARTIAL DISCLOSURE —",
+        closing_main: "The rest is played, not read."
+    },
+    zh: {
+        nav_world: "世界觀", nav_monument: "意志之碑", nav_rules: "規則", nav_ignite: "注入意志",
+        hero_label: "系統文件",
+        hero_title: "規 則",
+        hero_sub: "[ 部分公開 ]",
+        notice_em: "以下為不完整的節錄。",
+        notice_body: "完整規則在遊玩前不會被揭露。你選擇了什麼、迴避了什麼、移除了什麼——系統全部都在觀察。此頁面僅包含在遊玩前可以安全得知的內容。",
+        r1_title: "戰鬥不是戰鬥",
+        r1_text: "這個遊戲中的每一場戰鬥，都是一場<span class='redacted' data-reveal='對話'>██</span>的偽裝。你永遠不會被告知哪些遭遇真正重要。你永遠不會被告知你行動時究竟在做什麼。",
+        r1_note: "// 系統記錄的是你的選擇，不是你的勝利",
+        r2_title: "你的行動方式是一種宣告",
+        r2_text: "當你選擇如何面對某件事，你不只是在解決問題。你是在告訴系統：<em>這就是我的存在方式。</em>系統會記住。",
+        r2_note: "// 有些路會悄悄關閉，不留任何通知",
+        r3_title: "世界之聲不解釋自己",
+        r3_text: "世界之聲在你準備好之前就宣告了你的命運。它不辯解，不協商。它留下的唯一問題：<span class='redacted' data-reveal='命運需要你的同意嗎？'>███████████████</span>",
+        r3_note: "// 滑鼠移上去，閱讀那些差點被遮住的文字",
+        r4_title: "有一條沒有名字的路",
+        r4_text: "大多數玩家不會找到它。它無法靠搜尋找到。進入它的條件是某種你要麼自然而然地做到，要麼就是做不到的事。系統不會確認你是否走在它上面。",
+        r4_note: "// [已刪除]",
+        r5_title: "你無法靠武力取勝",
+        r5_text: "打倒敵人終結了這場遭遇。它沒有終結其他任何事情。遊戲不是在問你是否足夠強大。它在問的是：當<span class='redacted' data-reveal='你被給予了毀滅的選項'>███████████████</span>時，你會成為什麼樣的人。",
+        r5_note: "// 力量是一個答案。但不是最後一個。",
+        closing_label: "— 部分公開結束 —",
+        closing_main: "其餘的，在遊玩中發現。"
+    },
+    ja: {
+        nav_world: "世界観", nav_monument: "意志の碑", nav_rules: "ルール", nav_ignite: "意志の注入",
+        hero_label: "システム文書",
+        hero_title: "ル ー ル",
+        hero_sub: "[ 部分的開示 ]",
+        notice_em: "以下は不完全な抜粋です。",
+        notice_body: "完全なルールセットはプレイ前に開示されません。あなたが選んだもの、避けたもの、取り除いたもの——システムはそのすべてを観察しています。このページには、事前に知っても安全な情報のみが含まれています。",
+        r1_title: "戦闘は戦闘ではない",
+        r1_text: "このゲームのすべての戦闘は、<span class='redacted' data-reveal='対話'>██</span>に偽装されています。どの遭遇が本当に重要かは、決して告げられません。行動するとき実際に何をしているかも、決して告げられません。",
+        r1_note: "// システムが記録するのは、あなたの勝利ではなく選択です",
+        r2_title: "行動の仕方は宣言である",
+        r2_text: "何かに向き合う方法を選ぶとき、あなたは単に問題を解決しているのではありません。システムに伝えているのです：<em>これが私の存在の仕方だ。</em>システムは覚えています。",
+        r2_note: "// いくつかの道は、告知なく静かに閉じられる",
+        r3_title: "世界の声は自らを説明しない",
+        r3_text: "世界の声は、あなたが準備できる前に運命を宣告しました。弁解しません。交渉しません。それが残す唯一の問い：<span class='redacted' data-reveal='運命はあなたの同意を必要とするのか？'>█████████████████████████</span>",
+        r3_note: "// ホバーして、隠されかけた文字を読む",
+        r4_title: "名前のない道がある",
+        r4_text: "ほとんどのプレイヤーはそれを見つけられません。探しても見つかりません。その道に入る条件は、自然にそうするか、しないかのどちらかです。システムはあなたがその道にいるかどうかを確認しません。",
+        r4_note: "// [削除済み]",
+        r5_title: "力で勝つことはできない",
+        r5_text: "敵を倒すことで遭遇は終わります。それ以外のことは何も終わりません。ゲームはあなたが十分に強いかを問うていません。<span class='redacted' data-reveal='破壊の選択肢が与えられたとき'>████████████████████</span>、あなたがどんな人間になるかを問うています。",
+        r5_note: "// 強さは一つの答えです。最後の答えではありません。",
+        closing_label: "— 部分的開示終了 —",
+        closing_main: "残りはプレイの中で見つかる。"
+    }
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('preferredLang', lang);
+    const t = translations[lang];
+
+    document.querySelectorAll('[data-t]').forEach(el => {
+        const key = el.getAttribute('data-t');
+        if (!t[key]) return;
+        // Use innerHTML for elements that contain spans
+        const htmlKeys = ['r1_text','r2_text','r3_text','r5_text'];
+        if (htmlKeys.includes(key)) {
+            el.innerHTML = t[key];
+            // Re-attach redacted hover listeners
+            el.querySelectorAll('.redacted').forEach(r => attachRedacted(r));
+        } else {
+            el.innerText = t[key];
+        }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    const btnMap = { en: 'btn-en', zh: 'btn-zh', ja: 'btn-ja' };
+    const btn = document.getElementById(btnMap[lang]);
+    if (btn) btn.classList.add('active');
+}
+
+function attachRedacted(el) {
+    el.addEventListener('mouseenter', () => el.classList.add('revealed'));
+    el.addEventListener('mouseleave', () => {});
+    el.addEventListener('click', () => el.classList.toggle('revealed'));
+}
+
+// Intersection observer for scroll reveals
+function observeElements() {
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.system-notice, .rule-item, .terminal, .closing').forEach((el, i) => {
+        el.style.transitionDelay = (i * 0.08) + 's';
+        io.observe(el);
+    });
+}
+
+// Terminal typing effect
+function runTerminal() {
+    const terminal = document.getElementById('terminal');
+    if (!terminal) return;
+
+    const lines = terminal.querySelectorAll('.terminal-line');
+    lines.forEach((line, i) => {
+        setTimeout(() => {
+            line.classList.add('typed');
+        }, i * 400 + 300);
+    });
+}
+
+// Audio sync (same as other pages)
+const audio = document.getElementById('bgm');
+function syncAudio() {
+    const savedTime = localStorage.getItem('bgm_time');
+    const isActive = localStorage.getItem('bgm_active');
+    if (savedTime) audio.currentTime = parseFloat(savedTime);
+    if (isActive === 'true') {
+        audio.play().catch(() => {
+            const wake = () => { audio.play(); localStorage.setItem('bgm_active', 'true'); document.removeEventListener('pointerdown', wake); };
+            document.addEventListener('pointerdown', wake);
+        });
+    }
+    document.addEventListener('click', () => {
+        if (audio.paused) { audio.play(); localStorage.setItem('bgm_active', 'true'); }
+    }, { once: true });
+    setInterval(() => { if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime); }, 500);
+}
+
+window.onload = () => {
+    const lang = localStorage.getItem('preferredLang') || 'en';
+    setLang(lang);
+
+    // Attach redacted listeners to initial HTML
+    document.querySelectorAll('.redacted').forEach(attachRedacted);
+
+    observeElements();
+
+    // Trigger terminal when it becomes visible
+    const terminalObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                runTerminal();
+                terminalObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    const term = document.getElementById('terminal');
+    if (term) terminalObs.observe(term);
+
+    syncAudio();
+};
+</script>
+
+</body>
+</html>
