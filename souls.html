@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Souls | S.T.A.T.U.T.E.S.</title>
+    <style>
+        :root {
+            --accent: #7a0000;
+            --bg: #050505;
+            --text: #c0c0c0;
+            --gold: #a89060;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Courier New", "Noto Sans TC", monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        nav {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a1a;
+            background: rgba(5,5,5,0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        nav a:hover, nav a.active { color: var(--accent); }
+        .lang-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #555;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin: 0 3px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .lang-btn.active { border-color: var(--accent); color: var(--accent); }
+        .hero {
+            padding: 80px 20px 20px;
+            text-align: center;
+        }
+        .hero-label {
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .hero h2 {
+            font-size: 2.5rem;
+            letter-spacing: 8px;
+            color: #fff;
+            font-weight: normal;
+        }
+        .divider {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #2a2a2a, transparent);
+            margin: 0 auto;
+        }
+        .character-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 30px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 60px;
+            align-items: start;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .character-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .sprite-area {
+            text-align: center;
+            position: sticky;
+            top: 100px;
+        }
+        .sprite-frame {
+            display: inline-block;
+            position: relative;
+            padding: 24px;
+            border: 1px solid #1a1a1a;
+            background: #0a0a0a;
+        }
+        .sprite-frame::before {
+            content: attr(data-name);
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg);
+            padding: 0 10px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+        .sprite-gif {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            width: 96px;
+            height: 96px;
+            display: block;
+            margin: 0 auto;
+        }
+        .sprite-class {
+            margin-top: 16px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: #333;
+        }
+        .sprite-belief {
+            margin-top: 8px;
+            font-size: 0.7rem;
+            color: var(--accent);
+            font-style: italic;
+        }
+        .char-name {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            color: #fff;
+            font-weight: normal;
+            margin-bottom: 6px;
+        }
+        .char-title {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 30px;
+        }
+        .char-body {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 2;
+        }
+        .char-body p { margin-bottom: 16px; }
+        .char-question {
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: #444;
+            line-height: 1.9;
+        }
+        .char-quote {
+            margin-top: 30px;
+            padding: 16px 20px;
+            border-left: 2px solid var(--accent);
+            font-size: 0.8rem;
+            color: #555;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+        .section-sep {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 30px;
+            border-top: 1px solid #111;
+        }
+        .backer-hook {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 30px 80px;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .backer-hook.visible { opacity: 1; }
+        .hook-label {
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: #222;
+            margin-bottom: 24px;
+        }
+        .hook-text {
+            font-size: 0.85rem;
+            color: #444;
+            line-height: 2;
+            max-width: 500px;
+        }
+        .hook-text em {
+            color: #666;
+            font-style: normal;
+        }
+        .hook-cta {
+            margin-top: 30px;
+            display: inline-block;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: var(--accent);
+            text-decoration: none;
+            border: 1px solid #2a1010;
+            padding: 10px 24px;
+            transition: 0.3s;
+        }
+        .hook-cta:hover {
+            background: rgba(122,0,0,0.1);
+            border-color: var(--accent);
+        }
+        .more-souls {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 30px 100px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .more-souls.visible { opacity: 1; }
+        .more-label {
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        .soul-slots {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .soul-slot {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: #1a1a1a;
+            letter-spacing: 1px;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .soul-slot:hover { border-color: #2a2a2a; color: #333; }
+        .soul-slot.filled { border-color: #2a2020; color: #554040; }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+        @media (max-width: 600px) {
+            .character-section { grid-template-columns: 1fr; gap: 40px; }
+            .sprite-area { position: static; }
+            .hero h2 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div>
+        <a href="index.html" data-t="nav_world">WORLD</a>
+        <a href="monument.html" data-t="nav_monument">MONUMENT</a>
+        <a href="rules.html" data-t="nav_rules">RULES</a>
+        <a href="souls.html" class="active" data-t="nav_souls">SOULS</a>
+        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
+    </div>
+    <div style="margin-top:10px;">
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
+        <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-label" data-t="hero_label">INHABITANTS OF THE WORLD</div>
+    <h2 data-t="hero_title">S O U L S</h2>
+</div>
+
+<div class="divider"></div>
+
+<div class="character-section" id="charSection">
+    <div class="sprite-area">
+        <div class="sprite-frame" data-name="ORDIS">
+            <img src="ORDIS.gif" class="sprite-gif" alt="Ordis">
+        </div>
+        <div class="sprite-class" data-t="ordis_class">PRIEST · LAYER I</div>
+        <div class="sprite-belief" data-t="ordis_belief">"Order is happiness"</div>
+    </div>
+
+    <div class="char-info">
+        <div class="char-name">Ordis</div>
+        <div class="char-title" data-t="ordis_title">承天命的祭司</div>
+        <div class="char-body">
+            <p data-t="ordis_p1"></p>
+            <p data-t="ordis_p2"></p>
+            <p data-t="ordis_p3"></p>
+            <p data-t="ordis_p4"></p>
+        </div>
+        <div class="char-question" data-t="ordis_question"></div>
+        <div class="char-quote" data-t="ordis_quote"></div>
+    </div>
+</div>
+
+<div class="section-sep"></div>
+
+<div class="backer-hook" id="backerHook">
+    <div class="hook-label" data-t="hook_label">— YOUR SOUL IN THIS WORLD —</div>
+    <div class="hook-text">
+        <span data-t="hook_text"></span><em data-t="hook_em"></em>
+    </div>
+    <a href="ignite.html" class="hook-cta" data-t="hook_cta">將你的意志刻入世界 →</a>
+</div>
+
+<div class="more-souls" id="moreSouls">
+    <div class="more-label" data-t="more_label">— OTHER SOULS —</div>
+    <div class="soul-slots">
+        <div class="soul-slot filled">ORDIS</div>
+        <div class="soul-slot" data-t="slot_unknown">???</div>
+        <div class="soul-slot" data-t="slot_unknown">???</div>
+        <div class="soul-slot" data-t="slot_unknown">???</div>
+        <div class="soul-slot" data-t="slot_unknown">???</div>
+        <div class="soul-slot" data-t="slot_unknown">???</div>
+    </div>
+</div>
+
+<audio id="bgm" loop preload="auto"><source src="town2.ogg" type="audio/ogg"></audio>
+
+<script>
+const T = {
+    en: {
+        nav_world:"WORLD", nav_monument:"MONUMENT", nav_rules:"RULES", nav_souls:"SOULS", nav_ignite:"IGNITE",
+        hero_label:"INHABITANTS OF THE WORLD", hero_title:"S O U L S",
+        ordis_class:"PRIEST · LAYER I", ordis_belief:'"Order is happiness"',
+        ordis_title:"Priest of Ordained Fate",
+        ordis_p1:"When a child turns ten, the world whispers. Ordis is one of the few who hears it clearly.",
+        ordis_p2:"Dressed in white ceremonial robes, he stands at the center of every ritual — composed, unwavering, as though doubt has never touched him. To him, fate is not a cage. It is order. And order is how this world remains whole.",
+        ordis_p3:"He does not question. He does not argue. He simply states.",
+        ordis_p4:"In this town, some see him as guidance. Others see in him a certainty that unsettles them.",
+        ordis_question:"When you meet him,\nwill you draw closer to his order —\nor try to show him another way?",
+        ordis_quote:'"Fate is order. Order is happiness."',
+        hook_label:"— YOUR SOUL IN THIS WORLD —",
+        hook_text:"Ordis is one voice in this world.\n\nEvery soul here carries its own belief, its own law, its own story.\n\n",
+        hook_em:"Your name could live here too.",
+        hook_cta:"Engrave Your Will into the World →",
+        more_label:"— OTHER SOULS —",
+        slot_unknown:"???"
+    },
+    zh: {
+        nav_world:"世界觀", nav_monument:"意志之碑", nav_rules:"規則", nav_souls:"靈魂", nav_ignite:"注入意志",
+        hero_label:"世界的居民", hero_title:"靈 魂",
+        ordis_class:"祭司 · 第一層", ordis_belief:"「秩序即幸福」",
+        ordis_title:"承天命的祭司",
+        ordis_p1:"在每個孩子迎來十歲之時，世界會低語。Ordis 是少數能清晰聽見那道聲音的人。",
+        ordis_p2:"身著素白祭服，他總是端正地站在儀式中央，神態平穩，如同從未動搖。對他而言，命運並非枷鎖，而是秩序；而秩序，是這個世界得以安穩運行的方式。",
+        ordis_p3:"他不質疑，也不爭辯。他只是陳述。",
+        ordis_p4:"在這座小鎮裡，有人將他視為指引，也有人在他身上，看見某種令人不安的確信。",
+        ordis_question:"當你與他相遇時，\n你會選擇靠近他的秩序，\n還是試著讓他看見另一種可能？",
+        ordis_quote:"「命運即秩序，秩序即幸福。」",
+        hook_label:"— 你的靈魂也可以在這裡 —",
+        hook_text:"Ordis 是這個世界的其中一道聲音。\n\n在這個世界裡，每一個靈魂都有自己的信念，自己的法則，自己的故事。\n\n",
+        hook_em:"你的名字，也可以活在這裡。",
+        hook_cta:"將你的意志刻入世界 →",
+        more_label:"— 其他靈魂 —",
+        slot_unknown:"???"
+    },
+    ja: {
+        nav_world:"世界観", nav_monument:"意志の碑", nav_rules:"ルール", nav_souls:"魂", nav_ignite:"意志の注入",
+        hero_label:"世界の住人たち", hero_title:"魂 た ち",
+        ordis_class:"祭司 · 第一層", ordis_belief:"「秩序は幸福なり」",
+        ordis_title:"天命を承けた祭司",
+        ordis_p1:"十歳を迎える子に、世界はささやく。オルディスは、その声を明確に聞ける数少ない者の一人だ。",
+        ordis_p2:"白い祭服をまとい、彼は常に儀式の中央に端正に立つ。穏やかな表情、揺るぎない佇まい——まるで迷いというものを知らないかのように。彼にとって、運命は枷ではなく、秩序だ。そして秩序こそが、この世界を安らかに保つ方法である。",
+        ordis_p3:"彼は問わない。争わない。ただ、述べるだけだ。",
+        ordis_p4:"この町では、彼を導きと見る者もいれば、彼の中に、どこか不穏な確信を見出す者もいる。",
+        ordis_question:"彼と出会ったとき、\nあなたは彼の秩序に近づくのか——\nそれとも、別の可能性を見せようとするのか？",
+        ordis_quote:"「運命は秩序、秩序は幸福。」",
+        hook_label:"— あなたの魂もここに —",
+        hook_text:"オルディスは、この世界に宿る声のひとつだ。\n\nこの世界のすべての魂は、それぞれの信念と、掟と、物語を持つ。\n\n",
+        hook_em:"あなたの名前も、ここに生きることができる。",
+        hook_cta:"あなたの意志を世界に刻む →",
+        more_label:"— 他の魂たち —",
+        slot_unknown:"???"
+    }
+};
+
+function setLang(lang) {
+    const t = T[lang];
+    document.querySelectorAll('[data-t]').forEach(el => {
+        const key = el.getAttribute('data-t');
+        if (!t[key]) return;
+        el.innerText = t[key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    const m = {en:'btn-en',zh:'btn-zh',ja:'btn-ja'};
+    document.getElementById(m[lang])?.classList.add('active');
+    localStorage.setItem('preferredLang', lang);
+}
+
+const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+}, {threshold:0.1});
+document.querySelectorAll('.character-section,.backer-hook,.more-souls').forEach(el => io.observe(el));
+
+const audio = document.getElementById('bgm');
+window.onload = () => {
+    const lang = localStorage.getItem('preferredLang') || 'zh';
+    setLang(lang);
+    const t = localStorage.getItem('bgm_time');
+    if(t) audio.currentTime = parseFloat(t);
+    if(localStorage.getItem('bgm_active')==='true') audio.play().catch(()=>{});
+    document.addEventListener('click',()=>{ if(audio.paused){ audio.play(); localStorage.setItem('bgm_active','true'); }},{once:true});
+    setInterval(()=>{ if(!audio.paused) localStorage.setItem('bgm_time', audio.currentTime); },500);
+};
+</script>
+</body>
+</html>
