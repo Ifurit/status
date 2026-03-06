@@ -110,6 +110,30 @@
 
 <div class="section-sep"></div>
 
+<div class="character-section" id="charSection2">
+    <div class="sprite-area">
+        <div class="sprite-frame" data-name="DUBIA">
+            <img src="DUBIA.gif" class="sprite-gif" alt="Dubia">
+        </div>
+        <div class="sprite-class" data-t="dubia_class">WARRIOR · LAYER I</div>
+        <div class="sprite-belief" data-t="dubia_belief">"If fate is right, why do I still doubt?"</div>
+    </div>
+    <div class="char-info">
+        <div class="char-name">Dubia</div>
+        <div class="char-title" data-t="dubia_title">The Warrior Who Questions Fate</div>
+        <div class="char-body">
+            <p data-t="dubia_p1"></p>
+            <p data-t="dubia_p2"></p>
+            <p data-t="dubia_p3"></p>
+            <p data-t="dubia_p4"></p>
+        </div>
+        <div class="char-question" data-t="dubia_question"></div>
+        <div class="char-quote" data-t="dubia_quote"></div>
+    </div>
+</div>
+
+<div class="section-sep"></div>
+
 <div class="backer-hook" id="backerHook">
     <div class="hook-label" data-t="hook_label">— YOUR SOUL IN THIS WORLD —</div>
     <div class="hook-text" data-t="hook_text"></div>
@@ -120,6 +144,7 @@
     <div class="more-label" data-t="more_label">— OTHER SOULS —</div>
     <div class="soul-slots">
         <div class="soul-slot filled">ORDIS</div>
+        <div class="soul-slot filled">DUBIA</div>
         <div class="soul-slot">???</div>
         <div class="soul-slot">???</div>
         <div class="soul-slot">???</div>
@@ -144,9 +169,18 @@ const T = {
         ordis_question:"When you meet him,\nwill you draw closer to his order —\nor try to show him another way?",
         ordis_quote:'"Fate is order. Order is happiness."',
         hook_label:"— YOUR SOUL IN THIS WORLD —",
-        hook_text:"Ordis is one voice in this world.\n\nEvery soul here carries its own belief, its own law, its own story.\n\nYour name could live here too.",
+        hook_text:"Ordis and Dubia are souls of this world.\n\nEvery soul here carries its own belief, its own law, its own story.\n\nYour name could live here too.",
         hook_cta:"Engrave Your Will into the World →",
-        more_label:"— OTHER SOULS —"
+        more_label:"— OTHER SOULS —",
+        dubia_class:"WARRIOR · LAYER I",
+        dubia_belief:'"If fate is right, why do I still doubt?"',
+        dubia_title:"The Warrior Who Questions Fate",
+        dubia_p1:"Under the same ritual, not everyone receives the same answer.",
+        dubia_p2:"Wearing worn training armor, she carries a sword marked by countless hours of practice. Her movements are restless, and a flicker of fire can often be seen in her eyes. To her, destiny has never felt as unquestionable as others claim.",
+        dubia_p3:"She does not know if she can truly defy it, nor does she know what path exists if she refuses to follow it. All she knows is that she cannot stop doubting.",
+        dubia_p4:"In this town, some believe she is simply too young, while others feel she has spoken the question many were afraid to ask.",
+        dubia_question:"When you meet her,\nwill you give her an answer,\nor allow her to continue searching?",
+        dubia_quote:'"If destiny is truly right, why do I still doubt it?"'
     },
     zh:{
         nav_world:"世界觀",nav_monument:"意志之碑",nav_rules:"規則",nav_souls:"靈魂",nav_ignite:"注入意志",
@@ -160,9 +194,18 @@ const T = {
         ordis_question:"當你與他相遇時，\n你會選擇靠近他的秩序，\n還是試著讓他看見另一種可能？",
         ordis_quote:"「命運即秩序，秩序即幸福。」",
         hook_label:"— 你的靈魂也可以在這裡 —",
-        hook_text:"Ordis 是這個世界的其中一道聲音。\n\n在這個世界裡，每一個靈魂都有自己的信念，自己的法則，自己的故事。\n\n你的名字，也可以活在這裡。",
+        hook_text:"Ordis 與 Dubia，是這個世界的靈魂。\n\n在這個世界裡，每一個靈魂都有自己的信念，自己的法則，自己的故事。\n\n你的名字，也可以活在這裡。",
         hook_cta:"將你的意志刻入世界 →",
-        more_label:"— 其他靈魂 —"
+        more_label:"— 其他靈魂 —",
+        dubia_class:"戰士 · 第一層",
+        dubia_belief:"「如果命運真的正確，那為什麼我仍然會懷疑？」",
+        dubia_title:"懷疑命運的戰士",
+        dubia_p1:"在同樣的儀式之下，並不是每個人都會得到相同的答案。",
+        dubia_p2:"穿著簡陋的訓練甲，她總是握著那把早已留下磨痕的劍。姿態急躁，目光裡帶著難以掩飾的火光。對她而言，命運並不像其他人說的那樣理所當然。",
+        dubia_p3:"她不確定自己是否能反抗它，也不知道如果不遵從命運，前方究竟還有沒有道路。她只是無法讓自己停止懷疑。",
+        dubia_p4:"在這座小鎮裡，有人認為她只是太年輕，也有人覺得，她說出了許多人不敢說出口的問題。",
+        dubia_question:"當你與她相遇時，\n你會告訴她答案，\n還是讓她繼續尋找？",
+        dubia_quote:"「如果命運真的正確，那為什麼我仍然會懷疑？」"
     },
     ja:{
         nav_world:"世界観",nav_monument:"意志の碑",nav_rules:"ルール",nav_souls:"魂",nav_ignite:"意志の注入",
@@ -176,9 +219,18 @@ const T = {
         ordis_question:"彼と出会ったとき、\nあなたは彼の秩序に近づくのか——\nそれとも、別の可能性を見せようとするのか？",
         ordis_quote:"「運命は秩序、秩序は幸福。」",
         hook_label:"— あなたの魂もここに —",
-        hook_text:"オルディスは、この世界に宿る声のひとつだ。\n\nこの世界のすべての魂は、それぞれの信念と、掟と、物語を持つ。\n\nあなたの名前も、ここに生きることができる。",
+        hook_text:"オルディスとドゥビアは、この世界の魂だ。\n\nこの世界のすべての魂は、それぞれの信念と、掟と、物語を持つ。\n\nあなたの名前も、ここに生きることができる。",
         hook_cta:"あなたの意志を世界に刻む →",
-        more_label:"— 他の魂たち —"
+        more_label:"— 他の魂たち —",
+        dubia_class:"戦士 · 第一層",
+        dubia_belief:"「運命が正しいなら、なぜ私はまだ疑っているの？」",
+        dubia_title:"運命に疑問を抱く戦士",
+        dubia_p1:"同じ儀式の下でも、誰もが同じ答えを得るわけではありません。",
+        dubia_p2:"簡素な訓練用の鎧を身につけ、手にした剣には幾度もの鍛錬の跡が残っています。彼女の動きは落ち着かず、その瞳には小さな炎のような光が宿っています。彼女にとって、運命は誰もが言うほど当たり前のものではありません。",
+        dubia_p3:"それに逆らえるのかもわからない。もし従わなければ、どこへ向かえばいいのかもわからない。それでも――彼女は疑うことをやめられません。",
+        dubia_p4:"この町では、彼女を若さゆえの迷いだと言う者もいれば、誰も口にできなかった問いを代わりに口にしただけだと言う者もいます。",
+        dubia_question:"もしあなたが彼女に出会ったなら、\n答えを与えるでしょうか。\nそれとも、彼女に探し続けさせますか。",
+        dubia_quote:"「もし運命が本当に正しいなら、どうして私はまだ疑っているの？」"
     }
 };
 
