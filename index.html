@@ -181,14 +181,6 @@ Will you choose to witness them in silence, or attempt to ignite a spark of chan
             const activeBtn = document.getElementById(btnMap[savedTrack] || 'bgm-town');
             if (activeBtn) activeBtn.classList.add('active');
         };
-                    document.addEventListener('pointerdown', wake);
-                });
-            }
-            document.addEventListener('click', () => {
-                if (audio.paused) { audio.play(); localStorage.setItem('bgm_active', 'true'); }
-            }, { once: true });
-            setInterval(() => { if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime); }, 500);
-        }
 
         window.onload = () => {
             setLang(localStorage.getItem('preferredLang') || 'en');
