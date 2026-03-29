@@ -37,6 +37,10 @@
         .bgm-btn:hover { border-color: #444; color: #666; }
         .bgm-btn.active { border-color: var(--accent); color: var(--accent); }
         .bgm-label { font-size: 0.6rem; color: #222; letter-spacing: 2px; }
+    
+        /* PAGE TRANSITION */
+        body { animation: pageFadeIn 0.35s ease forwards; }
+        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -181,6 +185,23 @@ Will you choose to witness them in silence, or attempt to ignite a spark of chan
             const activeBtn = document.getElementById(btnMap[savedTrack] || 'bgm-town');
             if (activeBtn) activeBtn.classList.add('active');
         };
+
+
+        // Page transition
+        function navigateTo(url) {
+            document.body.style.transition = 'opacity 0.25s ease';
+            document.body.style.opacity = '0';
+            setTimeout(() => { window.location.href = url; }, 260);
+        }
+        document.querySelectorAll('nav a[href]').forEach(a => {
+            a.addEventListener('click', e => {
+                const href = a.getAttribute('href');
+                if (href && !href.startsWith('http')) {
+                    e.preventDefault();
+                    navigateTo(href);
+                }
+            });
+        });
 
         window.onload = () => {
             setLang(localStorage.getItem('preferredLang') || 'en');
