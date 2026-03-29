@@ -31,6 +31,12 @@
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         
         .world-detail { margin-top: 60px; color: #888; white-space: pre-line; }
+
+        .bgm-switcher { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .bgm-btn { background: none; border: 1px solid #222; color: #444; padding: 2px 10px; cursor: pointer; font-size: 0.65rem; font-family: inherit; letter-spacing: 1px; transition: 0.3s; }
+        .bgm-btn:hover { border-color: #444; color: #666; }
+        .bgm-btn.active { border-color: var(--accent); color: var(--accent); }
+        .bgm-label { font-size: 0.6rem; color: #222; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -46,6 +52,11 @@
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">繁中</button>
             <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">日本語</button>
+        </div>
+        <div class="bgm-switcher">
+            <span class="bgm-label">BGM</span>
+            <button class="bgm-btn" id="bgm-town" onclick="switchBGM('town2.ogg','bgm-town')">TOWN</button>
+            <button class="bgm-btn" id="bgm-church" onclick="switchBGM('church.ogg','bgm-church')">CHURCH</button>
         </div>
     </nav>
 
@@ -139,13 +150,37 @@ Will you choose to witness them in silence, or attempt to ignite a spark of chan
         }
 
         const audio = document.getElementById('bgm');
+        function switchBGM(file, btnId) {
+            const wasPlaying = !audio.paused;
+            audio.src = file;
+            audio.load();
+            if (wasPlaying) audio.play();
+            localStorage.setItem('bgm_track', file);
+            localStorage.setItem('bgm_time', '0');
+            document.querySelectorAll('.bgm-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(btnId).classList.add('active');
+        }
+
         function syncAudio() {
+            const savedTrack = localStorage.getItem('bgm_track') || 'town2.ogg';
             const savedTime = localStorage.getItem('bgm_time');
             const isActive = localStorage.getItem('bgm_active');
+            audio.src = savedTrack;
+            audio.load();
             if (savedTime) audio.currentTime = parseFloat(savedTime);
             if (isActive === 'true') {
                 audio.play().catch(() => {
-                    const wake = () => { audio.play(); document.removeEventListener('pointerdown', wake); };
+                    const wake = () => { audio.play(); localStorage.setItem('bgm_active', 'true'); document.removeEventListener('pointerdown', wake); };
+                    document.addEventListener('pointerdown', wake);
+                });
+            }
+            document.addEventListener('click', () => { if (audio.paused) { audio.play(); localStorage.setItem('bgm_active', 'true'); } }, { once: true });
+            setInterval(() => { if (!audio.paused) localStorage.setItem('bgm_time', audio.currentTime); }, 500);
+            const btnMap = { 'town2.ogg': 'bgm-town', 'church.ogg': 'bgm-church' };
+            document.querySelectorAll('.bgm-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById(btnMap[savedTrack] || 'bgm-town');
+            if (activeBtn) activeBtn.classList.add('active');
+        };
                     document.addEventListener('pointerdown', wake);
                 });
             }
