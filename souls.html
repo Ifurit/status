@@ -64,6 +64,10 @@
 
         body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); pointer-events:none; z-index:9999; }
         @media(max-width:600px){ .character-section{grid-template-columns:1fr;gap:40px;} .hero h2{font-size:1.6rem;} }
+    
+        /* PAGE TRANSITION */
+        body { animation: pageFadeIn 0.35s ease forwards; }
+        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -72,9 +76,9 @@
     <div>
         <a href="index.html" data-t="nav_world">WORLD</a>
         <a href="monument.html" data-t="nav_monument">MONUMENT</a>
+        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
         <a href="rules.html" data-t="nav_rules">RULES</a>
         <a href="souls.html" class="active" data-t="nav_souls">SOULS</a>
-        <a href="ignite.html" data-t="nav_ignite">IGNITE</a>
     </div>
     <div style="margin-top:10px;">
         <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -292,6 +296,23 @@ function syncAudio() {
     const activeBtn = document.getElementById(btnMap[savedTrack] || 'bgm-town');
     if (activeBtn) activeBtn.classList.add('active');
 }
+
+        // Page transition
+        function navigateTo(url) {
+            document.body.style.transition = 'opacity 0.25s ease';
+            document.body.style.opacity = '0';
+            setTimeout(() => { window.location.href = url; }, 260);
+        }
+        document.querySelectorAll('nav a[href]').forEach(a => {
+            a.addEventListener('click', e => {
+                const href = a.getAttribute('href');
+                if (href && !href.startsWith('http')) {
+                    e.preventDefault();
+                    navigateTo(href);
+                }
+            });
+        });
+
 window.onload=()=>{
     const lang=localStorage.getItem('preferredLang')||'zh';
     setLang(lang);
